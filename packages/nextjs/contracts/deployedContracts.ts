@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     IdentityRegistry: {
       address:
-        "0xde217cd822e148f4dbd1c714dd98aa09bb3a1831bbc8cc4ac91bf5e7c9493a",
+        "0x18bbd78249bb9c5f8dda60d806b5d77aead00aa4a67e3a48f484d3cc9df3b90",
       abi: [
         {
           type: "impl",
@@ -147,6 +147,90 @@ const deployedContracts = {
               outputs: [
                 {
                   type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "set_product_registry",
+              inputs: [
+                {
+                  name: "product_registry",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_products_of_user",
+              inputs: [
+                {
+                  name: "user",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_product_of_user_by_index",
+              inputs: [
+                {
+                  name: "user",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "index",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_product_owners",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_owner_history_entry",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "index",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::starknet::contract_address::ContractAddress,)",
                 },
               ],
               state_mutability: "view",
@@ -345,11 +429,11 @@ const deployedContracts = {
         },
       ],
       classHash:
-        "0x676fe4aae7ae10a2e0e6848cbe4b8019d88dc73a71f52df1081e6e02d2f1bbf",
+        "0x24a782d5c93dda14b22a81fb65794c26a483183d23823cd8a924e6fa7125391",
     },
     RewardManager: {
       address:
-        "0x321443578415adcc5f83457c2a454017234699189dab7c2c768da36659d0992",
+        "0x51d07579c32dc13a3c7d055f9bdce549ea20e87bb8493a520ba2b587794a334",
       abi: [
         {
           type: "impl",
@@ -600,7 +684,7 @@ const deployedContracts = {
     },
     ProductRegistry: {
       address:
-        "0x9efc41dcce194f51f9092129b669baf47022c80bd3419183be4a97c74f9a9",
+        "0x3fbdb91ccfccd1b9c7d9be6be3c0075f8f7a2254d9850872695d625831ee90c",
       abi: [
         {
           type: "impl",
@@ -759,6 +843,125 @@ const deployedContracts = {
               outputs: [
                 {
                   type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_product_count",
+              inputs: [],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_product_by_index",
+              inputs: [
+                {
+                  name: "index",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_products_of_user",
+              inputs: [
+                {
+                  name: "user",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_product_of_user_by_index",
+              inputs: [
+                {
+                  name: "user",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "index",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_product_owners",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_owner_history_entry",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "index",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::starknet::contract_address::ContractAddress,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_history_entry",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "index",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252, core::integer::u64)",
                 },
               ],
               state_mutability: "view",
@@ -970,11 +1173,11 @@ const deployedContracts = {
         },
       ],
       classHash:
-        "0x2cefad833d0330b7a911237f7590eb9079c179d16dd93531ed30a7c31b5c874",
+        "0x228e144e6e4ef399dc0da4727118e078c9633fd57149f0e84e8e95b9d5cca72",
     },
     ReturnValidationManager: {
       address:
-        "0x23cf8127d10c4f5f5b549f821937e99c1cf51cf6f235ea8042dab2ccd770ae",
+        "0x28bd057d4c39b8c084adbff939607013cc0691a9610aed83c97bdf63227a0b",
       abi: [
         {
           type: "impl",

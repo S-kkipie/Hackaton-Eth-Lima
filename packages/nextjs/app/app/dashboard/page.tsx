@@ -1,5 +1,5 @@
-import { MainLayout, MainLayoutSection, MainLayoutTitle } from "@/components/components/main-layout";
-import { SearchBar, SearchBarContainer } from "@/components/components/search-bar";
+import { MainLayout, MainLayoutSection, MainLayoutTitle } from "@/components/main-layout";
+import { SearchBar, SearchBarContainer } from "@/components/search-bar";
 import { FULL_TEXT_SEARCH_PARAM_NAME } from "@/lib/Constants";
 
 

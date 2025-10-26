@@ -11,7 +11,7 @@ import Header from "./Header";
 import provider from "../services/web3/provider";
 import { Footer } from "./templates/Footer";
 import { Toaster } from "./ui/sonner";
-import Providers from "./components/Providers";
+import Providers from "./Providers";
 
 const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
   useNativeCurrencyPrice();

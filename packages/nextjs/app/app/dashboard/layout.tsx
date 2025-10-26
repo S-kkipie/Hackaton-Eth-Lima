@@ -1,8 +1,8 @@
 "use client";
 
-import { AppSidebar } from "@/components/components/app-sidebar";
-import { useClientLoading } from "@/components/components/client-loading";
-import { SiteHeader } from "@/components/components/site-header";
+import { AppSidebar } from "@/components/app-sidebar";
+import { useClientLoading } from "@/components/client-loading";
+import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/templates/Footer";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { redirect } from "next/navigation";

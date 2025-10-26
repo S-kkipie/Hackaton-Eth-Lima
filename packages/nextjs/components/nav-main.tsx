@@ -18,8 +18,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import CreateProductModal from "../CreateProductModal";
+import CreateProductModal from "./CreateProductModal";
 import React from "react";
+import { useAccount } from "@/hooks/useAccount";
+import { useScaffoldReadContract } from "@/hooks/scaffold-stark/useScaffoldReadContract";
+import { toast } from "sonner";
+import TransferToStoreModal from "./TransferToStore";
 
 export function NavMain({
   items,
@@ -32,6 +36,20 @@ export function NavMain({
 }) {
   const [openCreateProductModal, setOpenCreateProductModal] =
     React.useState(false);
+  const [openTransferToStoreModal, setOpenTransferToStoreModal] =
+    React.useState(false);
+
+  const { address } = useAccount();
+
+  const { data: userRole } = useScaffoldReadContract({
+    contractName: "IdentityRegistry",
+    functionName: "get_role",
+    args: address ? [address] : undefined,
+  });
+
+  const isManufacturer = userRole === 1n;
+  const isSeller = userRole === 2n;
+  const isBuyer = userRole === 3n;
 
   return (
     <SidebarGroup>
@@ -63,16 +81,32 @@ export function NavMain({
             </Dialog>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
+        {isManufacturer && (
+          <SidebarMenu>
+            <SidebarMenuItem className="flex items-center gap-2">
+              <Dialog
+                open={openCreateProductModal}
+                onOpenChange={setOpenCreateProductModal}
+              >
+                <DialogTrigger asChild>
+                  <SidebarMenuButton tooltip="Pasar producto a tienda">
+                    <IconCirclePlusFilled />
+                    <span>Pasar producto a tienda</span>
+                  </SidebarMenuButton>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Pasar producto a tienda</DialogTitle>
+                    <TransferToStoreModal
+                      open={openTransferToStoreModal}
+                      onOpenChange={setOpenTransferToStoreModal}
+                    />
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
+          </SidebarMenu>
+        )}
       </SidebarGroupContent>
     </SidebarGroup>
   );

@@ -32,7 +32,7 @@ import { NavDocuments } from "./nav-documents";
 import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
 import { NavUser } from "./nav-user";
-import { Logo } from "../templates/Logo";
+import { Logo } from "./templates/Logo";
 import Link from "next/link";
 import { useAccount } from "@/hooks/useAccount";
 
