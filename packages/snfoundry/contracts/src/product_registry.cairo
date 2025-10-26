@@ -10,6 +10,9 @@ const PRODUCT_STATUS_RETURNED_TO_STORE: felt252 = 3;
 const PRODUCT_STATUS_RETURNED_TO_FACTORY: felt252 = 4;
 const PRODUCT_STATUS_RECYCLED: felt252 = 5;
 
+// History key base (to encode product_id + index into a single map key)
+const HISTORY_KEY_BASE: felt252 = 1000000;
+
 
 #[starknet::interface]
 pub trait IProductRegistry<TContractState> {
@@ -26,10 +29,19 @@ pub trait IProductRegistry<TContractState> {
     fn set_reward_manager(ref self: TContractState, reward_manager_addr: ContractAddress);
     fn get_product_info(self: @TContractState, product_id: felt252) -> (felt252, ContractAddress, felt252, felt252, u64);
     fn get_product_history(self: @TContractState, product_id: felt252) -> (felt252,);
+    // enumeration + history accessors
+    fn get_product_count(self: @TContractState) -> (felt252,);
+    fn get_product_by_index(self: @TContractState, index: felt252) -> (felt252,);
+    fn get_products_of_user(self: @TContractState, user: ContractAddress) -> (felt252,);
+    fn get_product_of_user_by_index(self: @TContractState, user: ContractAddress, index: felt252) -> (felt252,);
+    fn get_product_owners(self: @TContractState, product_id: felt252) -> (felt252,);
+    fn get_owner_history_entry(self: @TContractState, product_id: felt252, index: felt252) -> (ContractAddress,);
+    fn get_history_entry(self: @TContractState, product_id: felt252, index: felt252) -> (felt252, u64);
 }
 
 #[starknet::contract]
 pub mod ProductRegistry {
+    use super::HISTORY_KEY_BASE;
     use super::IProductRegistry;
     use crate::identity_registry::IIdentityRegistryDispatcher;
     use crate::identity_registry::IIdentityRegistryDispatcherTrait;
@@ -96,9 +108,16 @@ pub mod ProductRegistry {
         // Store product fields separately to avoid storing complex structs in storage
         products_owner: Map<felt252, ContractAddress>,
         products_description: Map<felt252, felt252>,
+        // index of products for enumeration
+        product_count: felt252,
+        products_by_index: Map<felt252, felt252>,
         products_status: Map<felt252, felt252>,
         // Keep only history length to avoid Array storage/Serde issues
         product_history_len: Map<felt252, felt252>,
+        // history stored as maps keyed by product_id * HISTORY_KEY_BASE + index
+        product_history_owner: Map<felt252, ContractAddress>,
+        product_history_status: Map<felt252, felt252>,
+        product_history_ts: Map<felt252, u64>,
         // track who initiated the return (buyer) to reward later
         returns_initiator: Map<felt252, ContractAddress>,
 
@@ -150,8 +169,17 @@ pub mod ProductRegistry {
             self.products_owner.write(product_id, caller);
             self.products_description.write(product_id, description);
             self.products_status.write(product_id, PRODUCT_STATUS_CREATED);
-            // initialize history length
-            self.product_history_len.write(product_id, 1);
+                // initialize history length and write first history entry (index 0)
+                self.product_history_len.write(product_id, 1);
+                let key = product_id * HISTORY_KEY_BASE + 0;
+                self.product_history_owner.write(key, caller);
+                self.product_history_status.write(key, PRODUCT_STATUS_CREATED);
+                let ts = get_block_timestamp();
+                self.product_history_ts.write(key, ts);
+                // register in global index
+                let count = self.product_count.read();
+                self.products_by_index.write(count, product_id);
+                self.product_count.write(count + 1);
 
             self.emit(ProductRegistered { product_id, owner: caller, description });
         }
@@ -181,6 +209,11 @@ pub mod ProductRegistry {
             self.products_status.write(product_id, PRODUCT_STATUS_IN_STORE);
             let timestamp = get_block_timestamp();
             let current_len = self.product_history_len.read(product_id);
+            // write history at index = current_len
+            let key = product_id * HISTORY_KEY_BASE + current_len;
+            self.product_history_owner.write(key, owner);
+            self.product_history_status.write(key, PRODUCT_STATUS_IN_STORE);
+            self.product_history_ts.write(key, timestamp);
             self.product_history_len.write(product_id, current_len + 1);
             self.emit(ProductStatusUpdated { product_id, new_status: PRODUCT_STATUS_IN_STORE, timestamp });
         }
@@ -218,6 +251,10 @@ pub mod ProductRegistry {
             self.products_status.write(product_id, PRODUCT_STATUS_SOLD);
             let timestamp = get_block_timestamp();
             let current_len = self.product_history_len.read(product_id);
+            let key = product_id * HISTORY_KEY_BASE + current_len;
+            self.product_history_owner.write(key, buyer);
+            self.product_history_status.write(key, PRODUCT_STATUS_SOLD);
+            self.product_history_ts.write(key, timestamp);
             self.product_history_len.write(product_id, current_len + 1);
             self.emit(ProductTransferred { product_id, new_owner: buyer, timestamp });
             self.emit(ProductStatusUpdated { product_id, new_status: PRODUCT_STATUS_SOLD, timestamp });
@@ -270,6 +307,10 @@ pub mod ProductRegistry {
                 self.returns_initiator.write(product_id, user);
                 let timestamp = get_block_timestamp();
                 let current_len = self.product_history_len.read(product_id);
+                let key = product_id * HISTORY_KEY_BASE + current_len;
+                self.product_history_owner.write(key, user);
+                self.product_history_status.write(key, PRODUCT_STATUS_RETURNED_TO_STORE);
+                self.product_history_ts.write(key, timestamp);
                 self.product_history_len.write(product_id, current_len + 1);
                 self.emit(ProductStatusUpdated { product_id, new_status: PRODUCT_STATUS_RETURNED_TO_STORE, timestamp });
                 return;
@@ -282,6 +323,12 @@ pub mod ProductRegistry {
                 self.products_status.write(product_id, PRODUCT_STATUS_RETURNED_TO_FACTORY);
                 let timestamp = get_block_timestamp();
                 let current_len = self.product_history_len.read(product_id);
+                let key = product_id * HISTORY_KEY_BASE + current_len;
+                // owner remains the store (current owner)
+                let current_owner = self.products_owner.read(product_id);
+                self.product_history_owner.write(key, current_owner);
+                self.product_history_status.write(key, PRODUCT_STATUS_RETURNED_TO_FACTORY);
+                self.product_history_ts.write(key, timestamp);
                 self.product_history_len.write(product_id, current_len + 1);
                 self.emit(ProductStatusUpdated { product_id, new_status: PRODUCT_STATUS_RETURNED_TO_FACTORY, timestamp });
                 return;
@@ -316,6 +363,11 @@ pub mod ProductRegistry {
             self.products_status.write(product_id, PRODUCT_STATUS_RECYCLED);
             let timestamp = get_block_timestamp();
             let current_len = self.product_history_len.read(product_id);
+            let key = product_id * HISTORY_KEY_BASE + current_len;
+            let current_owner = self.products_owner.read(product_id);
+            self.product_history_owner.write(key, current_owner);
+            self.product_history_status.write(key, PRODUCT_STATUS_RECYCLED);
+            self.product_history_ts.write(key, timestamp);
             self.product_history_len.write(product_id, current_len + 1);
 
             // Emit event BEFORE external call (CEI pattern)
@@ -323,7 +375,6 @@ pub mod ProductRegistry {
 
             // issue reward to the user who initiated the return
             let user = self.returns_initiator.read(product_id);
-            
             // Validate returns_initiator is set (not zero address)
             let zero_address: ContractAddress = 0.try_into().unwrap();
             if user != zero_address {
@@ -407,10 +458,13 @@ pub mod ProductRegistry {
             self.products_owner.write(product_id, new_owner);
             self.products_status.write(product_id, PRODUCT_STATUS_SOLD);
 
-            // increment history length
+            // append history entry
             let current_len = self.product_history_len.read(product_id);
-            let new_len = current_len + 1;
-            self.product_history_len.write(product_id, new_len);
+            let key = product_id * HISTORY_KEY_BASE + current_len;
+            self.product_history_owner.write(key, new_owner);
+            self.product_history_status.write(key, PRODUCT_STATUS_SOLD);
+            self.product_history_ts.write(key, timestamp);
+            self.product_history_len.write(product_id, current_len + 1);
 
             self.emit(ProductTransferred { product_id, new_owner, timestamp });
         }
@@ -428,59 +482,78 @@ pub mod ProductRegistry {
             return (len,);
         }
 
-        //Implementacion
-        fn get_products_by_user(self: @ContractState, user: ContractAddress) -> (felt252*) {
+        // -- Enumeration and history access (ABI-safe helpers) --
+        // Return total count of registered products
+        fn get_product_count(self: @ContractState) -> (felt252,) {
             let count = self.product_count.read();
-            let mut results: felt252* = array_new();
+            return (count,);
+        }
 
-            let mut i = 0;
+        // Return product id by global index
+        fn get_product_by_index(self: @ContractState, index: felt252) -> (felt252,) {
+            let pid = self.products_by_index.read(index);
+            return (pid,);
+        }
+
+        // Count products currently owned by a user (scans all products)
+        fn get_products_of_user(self: @ContractState, user: ContractAddress) -> (felt252,) {
+            let count_felt: felt252 = self.product_count.read();
+            let count: u64 = count_felt.try_into().unwrap();
+            let mut found: felt252 = 0;
+            let mut i: u64 = 0_u64;
             while i < count {
-                let product_id = self.products_by_index.read(i);
-                let owner = self.products_owner.read(product_id);
+                let idx: felt252 = i.try_into().unwrap();
+                let product_id: felt252 = self.products_by_index.read(idx);
+                let owner: ContractAddress = self.products_owner.read(product_id);
                 if owner == user {
-                    array_append(&mut results, product_id);
+                    found = found + 1;
                 }
-                i += 1;
+                i = i + 1_u64;
             }
-
-            return results;
+            return (found,);
         }
 
-        fn get_products_with_owners(self: @ContractState) -> ((felt252, ContractAddress)*) {
-            let count = self.product_count.read();
-            let mut all_products: (felt252, ContractAddress)* = array_new();
-
-            let mut i = 0;
+        // Return product id for user at given index (scans)
+        fn get_product_of_user_by_index(self: @ContractState, user: ContractAddress, index: felt252) -> (felt252,) {
+            let count_felt: felt252 = self.product_count.read();
+            let count: u64 = count_felt.try_into().unwrap();
+            let mut matches: felt252 = 0;
+            let mut i: u64 = 0_u64;
             while i < count {
-                let product_id = self.products_by_index.read(i);
-                let owner = self.products_owner.read(product_id);
-                array_append(&mut all_products, (product_id, owner));
-                i += 1;
+                let idx: felt252 = i.try_into().unwrap();
+                let product_id: felt252 = self.products_by_index.read(idx);
+                let owner: ContractAddress = self.products_owner.read(product_id);
+                if owner == user {
+                    if matches == index {
+                        return (product_id,);
+                    }
+                    matches = matches + 1;
+                }
+                i = i + 1_u64;
             }
-
-            return all_products;
+            // not found
+            return (0,);
         }
 
-        fn get_product_lifecycle(self: @ContractState, product_id: felt252) -> ((felt252, u64)*) {
+        // Return number of owners recorded for a product (history length)
+        fn get_product_owners(self: @ContractState, product_id: felt252) -> (felt252,) {
             let len = self.product_history_len.read(product_id);
-            let mut lifecycle: (felt252, u64)* = array_new();
-            let mut i = 0;
-
-            while i < len {
-                let status = self.product_history_status.read(product_id * HISTORY_KEY_BASE + i);
-                let ts = self.product_history_ts.read(product_id * HISTORY_KEY_BASE + i);
-                array_append(&mut lifecycle, (status, ts));
-                i += 1;
-            }
-
-            return lifecycle;
+            return (len,);
         }
-        
-        // Quien creo el producto
-        fn get_creator(self: @ContractState, product_id: felt252) -> (ContractAddress,) {
-            let key = product_id * HISTORY_KEY_BASE + 0;
-            let creator = self.product_history_owner.read(key);
-            return (creator,);
+
+        // Return owner at history index for a product
+        fn get_owner_history_entry(self: @ContractState, product_id: felt252, index: felt252) -> (ContractAddress,) {
+            let key = product_id * HISTORY_KEY_BASE + index;
+            let owner = self.product_history_owner.read(key);
+            return (owner,);
+        }
+
+        // Return status and timestamp for a product history entry
+        fn get_history_entry(self: @ContractState, product_id: felt252, index: felt252) -> (felt252, u64) {
+            let key = product_id * HISTORY_KEY_BASE + index;
+            let status = self.product_history_status.read(key);
+            let ts = self.product_history_ts.read(key);
+            return (status, ts);
         }
     }
 }

@@ -38,9 +38,12 @@ pub mod IdentityRegistry {
         Map,
         StorageMapReadAccess,
         StorageMapWriteAccess,
+        StoragePointerReadAccess,
+        StoragePointerWriteAccess,
     };
     use starknet::{ContractAddress, get_caller_address};
-        use crate::product_registry::IProductRegistryDispatcher;
+    use crate::product_registry::IProductRegistryDispatcher;
+    use crate::product_registry::IProductRegistryDispatcherTrait;
 
     // COMPONENTE ownable (admin global)
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
@@ -202,13 +205,13 @@ pub mod IdentityRegistry {
 
         // Implementaciones
         // set the ProductRegistry address (only owner)
-        fn set_product_registry(ref self: ContractState, product_registry_addr: ContractAddress) {
+        fn set_product_registry(ref self: ContractState, product_registry: ContractAddress) {
             self.ownable.assert_only_owner();
             let zero_address: ContractAddress = 0.try_into().unwrap();
-            if product_registry_addr == zero_address {
+            if product_registry == zero_address {
                 panic!("Product registry address cannot be zero");
             }
-            self.product_registry.write(product_registry_addr);
+            self.product_registry.write(product_registry);
         }
 
         // Wrapper: count of products related to a user (current owner or appeared in owner-history)
