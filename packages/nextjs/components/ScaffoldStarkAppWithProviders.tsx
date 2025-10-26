@@ -11,6 +11,7 @@ import Header from "./Header";
 import provider from "../services/web3/provider";
 import { Footer } from "./templates/Footer";
 import { Toaster } from "./ui/sonner";
+import Providers from "./components/Providers";
 
 const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
   useNativeCurrencyPrice();
@@ -19,7 +20,6 @@ const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div className="flex relative flex-col min-h-screen bg-main">
-        <Header />
         <main className="relative flex flex-col flex-1">{children}</main>
         <Footer />
       </div>
@@ -48,7 +48,7 @@ export const ScaffoldStarkAppWithProviders = ({
       connectors={connectors}
       explorer={starkscan}
     >
-      <ScaffoldStarkApp>{children}</ScaffoldStarkApp>
+      <ScaffoldStarkApp><Providers>{children}</Providers></ScaffoldStarkApp>
     </StarknetConfig>
   );
 };

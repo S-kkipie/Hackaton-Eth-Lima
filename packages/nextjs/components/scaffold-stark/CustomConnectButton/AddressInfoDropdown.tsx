@@ -40,6 +40,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useScaffoldReadContract } from "@/hooks/scaffold-stark/useScaffoldReadContract";
 const allowedNetworks = getTargetNetworks();
 
 type AddressInfoDropdownProps = {
@@ -63,15 +64,7 @@ export const AddressInfoDropdown = ({
   const [showQRCodeModal, setShowQRCodeModal] = useState(false);
   const [selectingNetwork, setSelectingNetwork] = useState(false);
   const { connectors, connect } = useConnect();
-  const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === "dark";
-  // const dropdownRef = useRef<HTMLDetailsElement>(null);
-  // const closeDropdown = () => {
-  //   setSelectingNetwork(false);
-  //   dropdownRef.current?.removeAttribute("open");
-  // };
 
-  // useOutsideClick(dropdownRef, closeDropdown);
 
   function handleConnectBurner(
     e: React.MouseEvent<HTMLButtonElement>,

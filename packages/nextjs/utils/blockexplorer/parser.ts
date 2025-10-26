@@ -1,7 +1,7 @@
 import { num, hash, encode } from "starknet";
-import configExternalContracts from "~~/contracts/configExternalContracts";
-import deployedContracts from "~~/contracts/deployedContracts";
-import predeployedContracts from "~~/contracts/predeployedContracts";
+import configExternalContracts from "@/contracts/configExternalContracts";
+import deployedContracts from "@/contracts/deployedContracts";
+import predeployedContracts from "@/contracts/predeployedContracts";
 import { deepMergeContracts } from "../scaffold-stark/contract";
 
 export const convertCalldataToReadable = (

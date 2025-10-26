@@ -1,5 +1,5 @@
 import React from "react";
-import { getTypeBadge } from "~~/utils/blockexplorer";
+import { getTypeBadge } from "@/utils/blockexplorer";
 
 interface TypeBadgeProps {
   type: string;

@@ -9,12 +9,12 @@ import {
   num,
 } from "starknet";
 import { useTargetNetwork } from "../scaffold-stark/useTargetNetwork";
-import { parseEventData } from "~~/utils/scaffold-stark/eventsData";
+import { parseEventData } from "@/utils/scaffold-stark/eventsData";
 import { devnet } from "@starknet-react/chains";
-import deployedContracts from "~~/contracts/deployedContracts";
-import predeployedContracts from "~~/contracts/predeployedContracts";
-import configExternalContracts from "~~/contracts/configExternalContracts";
-import { deepMergeContracts } from "~~/utils/scaffold-stark/contract";
+import deployedContracts from "@/contracts/deployedContracts";
+import predeployedContracts from "@/contracts/predeployedContracts";
+import configExternalContracts from "@/contracts/configExternalContracts";
+import { deepMergeContracts } from "@/utils/scaffold-stark/contract";
 
 export interface EventData {
   blockHash: string;

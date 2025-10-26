@@ -9,7 +9,7 @@ import {
   extractEventKeys,
   extractEventData,
   getTimeAgo,
-} from "~~/utils/blockexplorer";
+} from "@/utils/blockexplorer";
 import { CopyButton } from "./CopyButton";
 
 interface Event {

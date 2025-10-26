@@ -16,14 +16,14 @@ import {
 } from "@starknet-io/types-js";
 import { useTargetNetwork } from "../scaffold-stark/useTargetNetwork";
 import { getFunctionNameFromSelector } from "../../utils/scaffold-stark/selectorUtils";
-import { devnetUDCAddress } from "~~/utils/Constants";
+import { devnetUDCAddress } from "@/utils/Constants";
 import {
   checkSanitizedEquals,
   convertCalldataToReadable,
   decodeFunctionArguments,
   findFunctionDefinition,
   getMergedContracts,
-} from "~~/utils/blockexplorer";
+} from "@/utils/blockexplorer";
 
 /**
  * Comprehensive transaction detail interface that includes all relevant information

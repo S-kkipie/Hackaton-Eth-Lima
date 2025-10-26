@@ -1,5 +1,5 @@
 import React from "react";
-import { getStatusBadge } from "~~/utils/blockexplorer";
+import { getStatusBadge } from "@/utils/blockexplorer";
 
 interface StatusBadgeProps {
   status: string;

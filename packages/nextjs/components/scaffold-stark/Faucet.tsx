@@ -12,7 +12,7 @@ import {
 } from "../../components/scaffold-stark";
 import { useNetwork, useProvider } from "@starknet-react/core";
 import { mintStrk } from "../../services/web3/faucet";
-import { toast } from "../../utils/scaffold-stark";
+import { toast } from "sonner";
 
 /**
  * Faucet modal which lets you send STRK to any address.

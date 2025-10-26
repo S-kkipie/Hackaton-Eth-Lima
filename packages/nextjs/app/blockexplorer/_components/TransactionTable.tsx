@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Address } from "~~/components/scaffold-stark";
-import { TxnEntry, truncateHash } from "~~/utils/blockexplorer";
+import { Address } from "@/components/scaffold-stark";
+import { TxnEntry, truncateHash } from "@/utils/blockexplorer";
 import { CopyButton } from "./CopyButton";
 import { StatusBadge } from "./StatusBadge";
 import { TypeBadge } from "./TypeBadge";

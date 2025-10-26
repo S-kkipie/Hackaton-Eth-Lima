@@ -1,11 +1,11 @@
 import React from "react";
-import { Address } from "~~/components/scaffold-stark";
+import { Address } from "@/components/scaffold-stark";
 import {
   DecodedFunctionCall,
   getDisplayValue,
   getCairoType,
   getCopyValue,
-} from "~~/utils/blockexplorer";
+} from "@/utils/blockexplorer";
 import { CopyButton } from "./CopyButton";
 
 interface FunctionCallsDisplayProps {

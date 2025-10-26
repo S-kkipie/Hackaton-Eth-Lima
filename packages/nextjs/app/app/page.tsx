@@ -45,7 +45,7 @@ export default function Page() {
   });
 
   if(userRole && userRole !== 0) {
-    redirect('/dashboard');
+    redirect('/app/dashboard');
   }
 
   const { sendAsync: registerUser, isPending } = useScaffoldWriteContract({

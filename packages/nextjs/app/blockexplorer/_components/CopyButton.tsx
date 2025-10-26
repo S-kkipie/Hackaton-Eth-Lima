@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
-import { CopyButtonProps } from "~~/utils/blockexplorer";
+import { CopyButtonProps } from "@/utils/blockexplorer";
 
 interface CopyButtonComponentProps extends CopyButtonProps {
   copiedField: string | null;

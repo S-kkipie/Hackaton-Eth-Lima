@@ -16,12 +16,12 @@ import {
   DEPLOY_TXN,
 } from "@starknet-io/types-js";
 import { getFunctionNameFromSelector } from "../../utils/scaffold-stark/selectorUtils";
-import { devnetUDCAddress } from "~~/utils/Constants";
+import { devnetUDCAddress } from "@/utils/Constants";
 import { encode } from "starknet";
 import {
   checkSanitizedEquals,
   convertCalldataToReadable,
-} from "~~/utils/blockexplorer";
+} from "@/utils/blockexplorer";
 
 interface UseFetchAllTxnsOptions {
   page?: number;

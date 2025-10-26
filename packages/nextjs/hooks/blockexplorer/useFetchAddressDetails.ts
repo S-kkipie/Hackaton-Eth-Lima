@@ -6,8 +6,8 @@ import { Contract, hash, num, RpcProvider } from "starknet";
 import { Address } from "@starknet-react/chains";
 import { useTargetNetwork } from "../scaffold-stark/useTargetNetwork";
 import { useContract } from "@starknet-react/core";
-import { devnetUDCAddress } from "~~/utils/Constants";
-import { checkSanitizedEquals } from "~~/utils/blockexplorer";
+import { devnetUDCAddress } from "@/utils/Constants";
+import { checkSanitizedEquals } from "@/utils/blockexplorer";
 
 interface AddressDetails {
   contractAddress: string;

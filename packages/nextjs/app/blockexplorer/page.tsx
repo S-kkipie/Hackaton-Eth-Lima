@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { SearchBar } from "~~/components/scaffold-stark";
-import { useFetchAllTxns } from "~~/hooks/blockexplorer/useFetchAllTxns";
-import { TxnEntry, getTimeAgo } from "~~/utils/blockexplorer";
+import { SearchBar } from "@/components/scaffold-stark";
+import { useFetchAllTxns } from "@/hooks/blockexplorer/useFetchAllTxns";
+import { TxnEntry, getTimeAgo } from "@/utils/blockexplorer";
 import {
   TransactionTable,
   LoadingState,
@@ -63,7 +63,7 @@ export default function BlockExplorer() {
   return (
     <div className="flex flex-col min-h-screen bg-base-200">
       {/* Header with gradient background */}
-      <div className="bg-primary py-12 px-6 lg:px-10">
+      <div className=" py-12 px-6 lg:px-10">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-primary-content mb-8">
             Block Explorer
