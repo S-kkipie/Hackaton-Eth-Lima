@@ -33,6 +33,17 @@ const deployScript = async (): Promise<void> => {
     },
   });
 
+  // 3. Deploy ProductRegistry (needs IdentityRegistry and RewardManager addresses)
+  const productRegistry = await deployContract({
+    contract: "ProductRegistry",
+    contractName: "ProductRegistry",
+    constructorArgs: {
+      owner: deployer.address,
+      identity_registry_addr: identityRegistry.address,
+      reward_manager_addr: rewardManager.address,
+    },
+  });
+
   
 };
 
