@@ -10,22 +10,20 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import { Address, Balance } from "~~/components/scaffold-stark";
+import { Address, Balance } from "@/components/scaffold-stark";
 import {
   useFetchAddressDetails,
   useFetchAllTxns,
   useFetchEvents,
-} from "~~/hooks/blockexplorer";
-import { useScaffoldStarkProfile } from "~~/hooks/scaffold-stark/useScaffoldStarkProfile";
-import useScaffoldStrkBalance from "~~/hooks/scaffold-stark/useScaffoldStrkBalance";
+} from "@/hooks/blockexplorer";
+import { useScaffoldStarkProfile } from "@/hooks/scaffold-stark/useScaffoldStarkProfile";
+import useScaffoldStrkBalance from "@/hooks/scaffold-stark/useScaffoldStrkBalance";
 
 interface AddressDetailsProps {
-  params: Promise<{
     address: string;
-  }>;
 }
 
-export default function AddressDetails({ params }: AddressDetailsProps) {
+export default function AddressDetails({ address }: AddressDetailsProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("overview");
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -33,31 +31,31 @@ export default function AddressDetails({ params }: AddressDetailsProps) {
   const [showRawEventData, setShowRawEventData] = useState(false);
 
   // Unwrap the params Promise
-  const resolvedParams = use(params);
+  const resolvedParams = address
 
   // Fetch address details using scaffold hooks
   const {
     addressDetails,
     isLoading: isAddressLoading,
     error: addressError,
-  } = useFetchAddressDetails(resolvedParams.address as `0x${string}`);
+  } = useFetchAddressDetails(address as `0x${string}`);
   const { data: profileData, isLoading: isProfileLoading } =
-    useScaffoldStarkProfile(resolvedParams.address as `0x${string}`);
+    useScaffoldStarkProfile(address as `0x${string}`);
   const { formatted: strkBalance, isLoading: isBalanceLoading } =
     useScaffoldStrkBalance({
-      address: resolvedParams.address as `0x${string}`,
+      address: address as `0x${string}`,
     });
 
   const { txns: transactionsData, isLoading: isTransactionsLoading } =
     useFetchAllTxns({
       page: 1,
       pageSize: 10,
-      bySenderAddress: resolvedParams.address as `0x${string}`,
-      byReceiverAddress: resolvedParams.address as `0x${string}`,
+      bySenderAddress: address as `0x${string}`,
+      byReceiverAddress: address as `0x${string}`,
     });
 
   const { events: eventsData, isLoading: isEventsLoading } = useFetchEvents({
-    address: resolvedParams.address,
+    address: address,
     pageSize: 10,
     page: 1,
   });
@@ -106,7 +104,7 @@ export default function AddressDetails({ params }: AddressDetailsProps) {
 
   // Use fetched data or fallback to loading states
   const addressData = {
-    contractAddress: resolvedParams.address,
+    contractAddress: address,
     classHash: addressDetails.classHash || "Not available",
     strkBalance: strkBalance || "0",
     type: addressDetails.type,
@@ -134,18 +132,6 @@ export default function AddressDetails({ params }: AddressDetailsProps) {
     return (
       <div className="flex flex-col min-h-screen bg-base-200">
         <div className="bg-primary py-8 px-6 lg:px-10">
-          <div className="max-w-7xl mx-auto">
-            <button
-              onClick={() => router.back()}
-              className="flex items-center space-x-2 text-primary-content hover:text-primary-content/80 transition-colors mb-6"
-            >
-              <ArrowLeftIcon className="h-5 w-5" />
-              <span className="font-medium">Back</span>
-            </button>
-            <h1 className="text-4xl font-bold text-primary-content">
-              Address Details
-            </h1>
-          </div>
         </div>
         <div className="flex-1 px-6 lg:px-10 py-8">
           <div className="max-w-7xl mx-auto">
@@ -271,7 +257,7 @@ export default function AddressDetails({ params }: AddressDetailsProps) {
                 ) : (
                   <>
                     <Balance
-                      address={resolvedParams.address as `0x${string}`}
+                      address={address as `0x${string}`}
                       className="text-base-content"
                     />
                   </>
@@ -708,7 +694,7 @@ export default function AddressDetails({ params }: AddressDetailsProps) {
                                 className="text-blue-400 font-mono text-sm hover:text-blue-300 hover:underline transition-colors"
                               >
                                 {event.contractAddress ===
-                                resolvedParams.address
+                                address
                                   ? "Self Contract"
                                   : `${event.contractAddress.slice(0, 6)}...${event.contractAddress.slice(-4)}`}
                               </button>
@@ -996,34 +982,6 @@ export default function AddressDetails({ params }: AddressDetailsProps) {
   return (
     <div className="flex flex-col min-h-screen bg-base-200">
       {/* Header with gradient background */}
-      <div className="bg-primary py-8 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto">
-          <button
-            onClick={() => router.back()}
-            className="flex items-center space-x-2 text-primary-content hover:text-primary-content/80 transition-colors mb-6"
-          >
-            <ArrowLeftIcon className="h-5 w-5" />
-            <span className="font-medium">Back</span>
-          </button>
-
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold text-primary-content">
-              Address Details
-            </h1>
-            <div className="flex items-center space-x-2">
-              <span className="text-primary-content/80 text-lg">Address:</span>
-              <Address
-                address={resolvedParams.address as `0x${string}`}
-                format="long"
-                profile={profileData}
-                isLoading={isProfileLoading}
-                size="lg"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main content */}
       <div className="flex-1 px-6 lg:px-10 py-8">
         <div className="max-w-7xl mx-auto">
