@@ -31,7 +31,7 @@ import {
 import { Badge } from "./ui/badge";
 import { MenuIcon } from "lucide-react";
 import { useAccount } from "@/hooks/useAccount";
-import { AddressInfoDropdown } from "../scaffold-stark/CustomConnectButton/AddressInfoDropdown";
+import { AddressInfoDropdown } from "./scaffold-stark/CustomConnectButton/AddressInfoDropdown";
 
 export function SiteHeader({ home }: { home?: boolean }) {
   const pathname = usePathname();
