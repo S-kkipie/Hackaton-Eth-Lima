@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
-import { Toaster } from "react-hot-toast";
 // Combina providers (chains y conectores-> wallets)
 import { StarknetConfig, starkscan } from "@starknet-react/core";
 import { useNativeCurrencyPrice } from "../hooks/scaffold-stark/useNativeCurrencyPrice";
@@ -11,7 +10,7 @@ import { appChains, connectors } from "../services/web3/connectors";
 import Header from "./Header";
 import provider from "../services/web3/provider";
 import { Footer } from "./templates/Footer";
-
+import { Toaster } from "./ui/sonner";
 
 const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
   useNativeCurrencyPrice();
@@ -24,7 +23,7 @@ const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
         <main className="relative flex flex-col flex-1">{children}</main>
         <Footer />
       </div>
-      <Toaster />
+      <Toaster richColors expand />
     </>
   );
 };

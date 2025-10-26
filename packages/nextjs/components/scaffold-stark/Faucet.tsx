@@ -12,7 +12,7 @@ import {
 } from "../../components/scaffold-stark";
 import { useNetwork, useProvider } from "@starknet-react/core";
 import { mintStrk } from "../../services/web3/faucet";
-import { notification } from "../../utils/scaffold-stark";
+import { toast } from "../../utils/scaffold-stark";
 
 /**
  * Faucet modal which lets you send STRK to any address.
@@ -34,7 +34,7 @@ export const Faucet = () => {
         const providerInfo = await publicClient.getBlock();
       } catch (error) {
         console.error("⚡️ ~ file: Faucet.tsx:checkChain ~ error", error);
-        notification.error(
+        toast.error(
           <>
             <p className="font-bold mt-0 mb-1">
               Cannot connect to local provider
@@ -75,13 +75,13 @@ export const Faucet = () => {
     const res = await mintStrk(inputAddress, sendValue);
     if (!res.new_balance) {
       setLoading(false);
-      notification.error(`${res}`);
+      toast.error(`${res}`);
       return;
     }
     setLoading(false);
     setInputAddress(undefined);
     setSendValue("");
-    notification.success("STRK sent successfully!");
+    toast.success("STRK sent successfully!");
   };
 
   // Render only on local chain

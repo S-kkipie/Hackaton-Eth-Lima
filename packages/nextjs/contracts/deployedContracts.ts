@@ -5,60 +5,14 @@
 
 const deployedContracts = {
   devnet: {
-    YourContract: {
+    IdentityRegistry: {
       address:
-        "0x748fdab9ecbc877cb18d835135ce0cae4ebe0373bb9d33ca4857acd913e984a",
+        "0x496dbc11894432ca03bfdf52d5758fb05dbe181711fda08d79aa3f1665e05d",
       abi: [
         {
           type: "impl",
-          name: "YourContractImpl",
-          interface_name: "contracts::your_contract::IYourContract",
-        },
-        {
-          type: "struct",
-          name: "core::byte_array::ByteArray",
-          members: [
-            {
-              name: "data",
-              type: "core::array::Array::<core::bytes_31::bytes31>",
-            },
-            {
-              name: "pending_word",
-              type: "core::felt252",
-            },
-            {
-              name: "pending_word_len",
-              type: "core::integer::u32",
-            },
-          ],
-        },
-        {
-          type: "struct",
-          name: "core::integer::u256",
-          members: [
-            {
-              name: "low",
-              type: "core::integer::u128",
-            },
-            {
-              name: "high",
-              type: "core::integer::u128",
-            },
-          ],
-        },
-        {
-          type: "enum",
-          name: "core::option::Option::<core::integer::u256>",
-          variants: [
-            {
-              name: "Some",
-              type: "core::integer::u256",
-            },
-            {
-              name: "None",
-              type: "()",
-            },
-          ],
+          name: "IdentityRegistryImpl",
+          interface_name: "contracts::identity_registry::IIdentityRegistry",
         },
         {
           type: "enum",
@@ -76,30 +30,75 @@ const deployedContracts = {
         },
         {
           type: "interface",
-          name: "contracts::your_contract::IYourContract",
+          name: "contracts::identity_registry::IIdentityRegistry",
           items: [
             {
               type: "function",
-              name: "greeting",
-              inputs: [],
+              name: "register_user",
+              inputs: [
+                {
+                  name: "role",
+                  type: "core::felt252",
+                },
+                {
+                  name: "metadata",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "set_metadata",
+              inputs: [
+                {
+                  name: "metadata",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "admin_set_metadata",
+              inputs: [
+                {
+                  name: "account",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "metadata",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_metadata",
+              inputs: [
+                {
+                  name: "account",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
               outputs: [
                 {
-                  type: "core::byte_array::ByteArray",
+                  type: "core::felt252",
                 },
               ],
               state_mutability: "view",
             },
             {
               type: "function",
-              name: "set_greeting",
+              name: "revoke_role",
               inputs: [
                 {
-                  name: "new_greeting",
-                  type: "core::byte_array::ByteArray",
-                },
-                {
-                  name: "amount_strk",
-                  type: "core::option::Option::<core::integer::u256>",
+                  name: "account",
+                  type: "core::starknet::contract_address::ContractAddress",
                 },
               ],
               outputs: [],
@@ -107,18 +106,47 @@ const deployedContracts = {
             },
             {
               type: "function",
-              name: "withdraw",
-              inputs: [],
-              outputs: [],
-              state_mutability: "external",
-            },
-            {
-              type: "function",
-              name: "premium",
-              inputs: [],
+              name: "has_role",
+              inputs: [
+                {
+                  name: "account",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+                {
+                  name: "role",
+                  type: "core::felt252",
+                },
+              ],
               outputs: [
                 {
                   type: "core::bool",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_role",
+              inputs: [
+                {
+                  name: "account",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::felt252",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
                 },
               ],
               state_mutability: "view",
@@ -229,34 +257,68 @@ const deployedContracts = {
         },
         {
           type: "event",
-          name: "contracts::your_contract::YourContract::GreetingChanged",
+          name: "contracts::identity_registry::IdentityRegistry::UserRegistered",
           kind: "struct",
           members: [
             {
-              name: "greeting_setter",
+              name: "account",
               type: "core::starknet::contract_address::ContractAddress",
               kind: "key",
             },
             {
-              name: "new_greeting",
-              type: "core::byte_array::ByteArray",
-              kind: "key",
-            },
-            {
-              name: "premium",
-              type: "core::bool",
+              name: "role",
+              type: "core::felt252",
               kind: "data",
             },
             {
-              name: "value",
-              type: "core::option::Option::<core::integer::u256>",
+              name: "metadata",
+              type: "core::felt252",
               kind: "data",
             },
           ],
         },
         {
           type: "event",
-          name: "contracts::your_contract::YourContract::Event",
+          name: "contracts::identity_registry::IdentityRegistry::RoleRevoked",
+          kind: "struct",
+          members: [
+            {
+              name: "account",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "revoked_by",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::identity_registry::IdentityRegistry::MetadataUpdated",
+          kind: "struct",
+          members: [
+            {
+              name: "account",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "metadata",
+              type: "core::felt252",
+              kind: "data",
+            },
+            {
+              name: "updated_by",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::identity_registry::IdentityRegistry::Event",
           kind: "enum",
           variants: [
             {
@@ -265,15 +327,964 @@ const deployedContracts = {
               kind: "flat",
             },
             {
-              name: "GreetingChanged",
-              type: "contracts::your_contract::YourContract::GreetingChanged",
+              name: "UserRegistered",
+              type: "contracts::identity_registry::IdentityRegistry::UserRegistered",
+              kind: "nested",
+            },
+            {
+              name: "RoleRevoked",
+              type: "contracts::identity_registry::IdentityRegistry::RoleRevoked",
+              kind: "nested",
+            },
+            {
+              name: "MetadataUpdated",
+              type: "contracts::identity_registry::IdentityRegistry::MetadataUpdated",
               kind: "nested",
             },
           ],
         },
       ],
       classHash:
-        "0x21e2aa81952de7b6851d5e76ea1f70283373407b22bfb4d32fafa4c5e2c8f1d",
+        "0x676fe4aae7ae10a2e0e6848cbe4b8019d88dc73a71f52df1081e6e02d2f1bbf",
+    },
+    RewardManager: {
+      address:
+        "0x41541c413844fe0c9b24a6f18d0227248ec99b3d4aa9e440232a2b86330beee",
+      abi: [
+        {
+          type: "impl",
+          name: "RewardManagerImpl",
+          interface_name: "contracts::reward_manager::IRewardManager",
+        },
+        {
+          type: "struct",
+          name: "core::integer::u256",
+          members: [
+            {
+              name: "low",
+              type: "core::integer::u128",
+            },
+            {
+              name: "high",
+              type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::reward_manager::IRewardManager",
+          items: [
+            {
+              type: "function",
+              name: "set_registry_address",
+              inputs: [
+                {
+                  name: "registry_address",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "set_reward_amount",
+              inputs: [
+                {
+                  name: "amount",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "claim_reward",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "user",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_user_rewards",
+              inputs: [
+                {
+                  name: "user",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::integer::u256,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableImpl",
+          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_access::ownable::interface::IOwnable",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "reward_token",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::reward_manager::RewardManager::RewardClaimed",
+          kind: "struct",
+          members: [
+            {
+              name: "user",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "product_id",
+              type: "core::felt252",
+              kind: "key",
+            },
+            {
+              name: "reward_amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::reward_manager::RewardManager::RewardConfigured",
+          kind: "struct",
+          members: [
+            {
+              name: "amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::reward_manager::RewardManager::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+            {
+              name: "RewardClaimed",
+              type: "contracts::reward_manager::RewardManager::RewardClaimed",
+              kind: "nested",
+            },
+            {
+              name: "RewardConfigured",
+              type: "contracts::reward_manager::RewardManager::RewardConfigured",
+              kind: "nested",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x1f8350064ec1850dc5df6790e4ee6d346b32f9f4b3bfeafaa82a6a812b1eecc",
+    },
+    ProductRegistry: {
+      address:
+        "0x4d9800d9736a5294151d994dfbf279eafa594586a4ab4faea1cf44088d5d712",
+      abi: [
+        {
+          type: "impl",
+          name: "ProductRegistryImpl",
+          interface_name: "contracts::product_registry::IProductRegistry",
+        },
+        {
+          type: "interface",
+          name: "contracts::product_registry::IProductRegistry",
+          items: [
+            {
+              type: "function",
+              name: "register_product",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "description",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "move_to_instore",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "sell_to_user",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "buyer",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "transfer_product",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "apply_validated_return",
+              inputs: [
+                {
+                  name: "return_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "factory_recycle",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "set_return_manager",
+              inputs: [
+                {
+                  name: "return_manager_addr",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "set_identity_registry",
+              inputs: [
+                {
+                  name: "identity_registry_addr",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "set_reward_manager",
+              inputs: [
+                {
+                  name: "reward_manager_addr",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_product_info",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252, core::starknet::contract_address::ContractAddress, core::felt252, core::felt252, core::integer::u64)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_product_history",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252,)",
+                },
+              ],
+              state_mutability: "view",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableImpl",
+          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_access::ownable::interface::IOwnable",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "identity_registry_addr",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+            {
+              name: "reward_manager_addr",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::product_registry::ProductRegistry::ProductRegistered",
+          kind: "struct",
+          members: [
+            {
+              name: "product_id",
+              type: "core::felt252",
+              kind: "key",
+            },
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "description",
+              type: "core::felt252",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::product_registry::ProductRegistry::ProductStatusUpdated",
+          kind: "struct",
+          members: [
+            {
+              name: "product_id",
+              type: "core::felt252",
+              kind: "key",
+            },
+            {
+              name: "new_status",
+              type: "core::felt252",
+              kind: "data",
+            },
+            {
+              name: "timestamp",
+              type: "core::integer::u64",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::product_registry::ProductRegistry::ProductTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "product_id",
+              type: "core::felt252",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "timestamp",
+              type: "core::integer::u64",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::product_registry::ProductRegistry::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+            {
+              name: "ProductRegistered",
+              type: "contracts::product_registry::ProductRegistry::ProductRegistered",
+              kind: "nested",
+            },
+            {
+              name: "ProductStatusUpdated",
+              type: "contracts::product_registry::ProductRegistry::ProductStatusUpdated",
+              kind: "nested",
+            },
+            {
+              name: "ProductTransferred",
+              type: "contracts::product_registry::ProductRegistry::ProductTransferred",
+              kind: "nested",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0x2cefad833d0330b7a911237f7590eb9079c179d16dd93531ed30a7c31b5c874",
+    },
+    ReturnValidationManager: {
+      address:
+        "0x70879d2e5d62dc64f31a575dadc64368d68aac2eac41a91a76653f36127b2da",
+      abi: [
+        {
+          type: "impl",
+          name: "ReturnAndValidationManagerImpl",
+          interface_name:
+            "contracts::return_validation_manager::IReturnAndValidationManager",
+        },
+        {
+          type: "enum",
+          name: "core::bool",
+          variants: [
+            {
+              name: "False",
+              type: "()",
+            },
+            {
+              name: "True",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::return_validation_manager::IReturnAndValidationManager",
+          items: [
+            {
+              type: "function",
+              name: "create_return",
+              inputs: [
+                {
+                  name: "product_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "target_status",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "validate_return",
+              inputs: [
+                {
+                  name: "return_id",
+                  type: "core::felt252",
+                },
+                {
+                  name: "is_valid",
+                  type: "core::bool",
+                },
+                {
+                  name: "evidence_ipfs",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "cancel_return",
+              inputs: [
+                {
+                  name: "return_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "add_validator",
+              inputs: [
+                {
+                  name: "validator",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "remove_validator",
+              inputs: [
+                {
+                  name: "validator",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "set_product_registry",
+              inputs: [
+                {
+                  name: "product_registry",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_return",
+              inputs: [
+                {
+                  name: "return_id",
+                  type: "core::felt252",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::felt252, core::starknet::contract_address::ContractAddress, core::felt252, core::starknet::contract_address::ContractAddress, core::felt252, core::integer::u64, core::felt252)",
+                },
+              ],
+              state_mutability: "view",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableImpl",
+          interface_name: "openzeppelin_access::ownable::interface::IOwnable",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin_access::ownable::interface::IOwnable",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::return_validation_manager::ReturnAndValidationManager::ReturnCreated",
+          kind: "struct",
+          members: [
+            {
+              name: "return_id",
+              type: "core::felt252",
+              kind: "key",
+            },
+            {
+              name: "user",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "product_id",
+              type: "core::felt252",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::return_validation_manager::ReturnAndValidationManager::ReturnValidated",
+          kind: "struct",
+          members: [
+            {
+              name: "return_id",
+              type: "core::felt252",
+              kind: "key",
+            },
+            {
+              name: "validator",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "is_valid",
+              type: "core::bool",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::return_validation_manager::ReturnAndValidationManager::ReturnCancelled",
+          kind: "struct",
+          members: [
+            {
+              name: "return_id",
+              type: "core::felt252",
+              kind: "key",
+            },
+            {
+              name: "user",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::return_validation_manager::ReturnAndValidationManager::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin_access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+            {
+              name: "ReturnCreated",
+              type: "contracts::return_validation_manager::ReturnAndValidationManager::ReturnCreated",
+              kind: "nested",
+            },
+            {
+              name: "ReturnValidated",
+              type: "contracts::return_validation_manager::ReturnAndValidationManager::ReturnValidated",
+              kind: "nested",
+            },
+            {
+              name: "ReturnCancelled",
+              type: "contracts::return_validation_manager::ReturnAndValidationManager::ReturnCancelled",
+              kind: "nested",
+            },
+          ],
+        },
+      ],
+      classHash:
+        "0xcf277e62f5040a14535fc2bea8fb3eaa3919620811a6205e45847ce4f6a4d4",
     },
   },
 } as const;

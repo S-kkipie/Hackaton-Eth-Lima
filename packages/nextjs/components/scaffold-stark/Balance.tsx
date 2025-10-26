@@ -62,7 +62,7 @@ export const Balance = ({ address, className = "", usdMode }: BalanceProps) => {
   return (
     <>
       <Button
-        variant="outline"
+        variant="ghost"
         onClick={toggleBalanceMode}
       >
         <div className="w-full flex items-center justify-center">

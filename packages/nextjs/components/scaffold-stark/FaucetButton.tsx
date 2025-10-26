@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { BanknotesIcon } from "@heroicons/react/24/outline";
-import { mintStrk } from "~~/services/web3/faucet";
 import { Address, devnet } from "@starknet-react/chains";
-import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
-import useScaffoldStrkBalance from "~~/hooks/scaffold-stark/useScaffoldStrkBalance";
-import { useAccount } from "~~/hooks/useAccount";
+import { mintStrk } from "@/services/web3/faucet";
+import useScaffoldStrkBalance from "@/hooks/scaffold-stark/useScaffoldStrkBalance";
+import { useTargetNetwork } from "@/hooks/scaffold-stark/useTargetNetwork";
+import { useAccount } from "@starknet-react/core";
 
 // Number of STRK faucet sends to an address
 const NUM_OF_STRK = "1";

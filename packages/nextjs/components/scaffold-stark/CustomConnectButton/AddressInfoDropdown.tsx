@@ -25,7 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getTargetNetworks, notification } from "@/utils/scaffold-stark";
+import { getTargetNetworks } from "@/utils/scaffold-stark";
 import { useScaffoldStarkProfile } from "@/hooks/scaffold-stark/useScaffoldStarkProfile";
 import { getStarknetPFPIfExists } from "@/utils/profile";
 import { BlockieAvatar } from "../BlockieAvatar";
@@ -39,6 +39,7 @@ import {
 import { QRCodeSVG } from "qrcode.react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 const allowedNetworks = getTargetNetworks();
 
 type AddressInfoDropdownProps = {
@@ -108,10 +109,10 @@ export const AddressInfoDropdown = ({
       localStorage.removeItem("lastConnectionTime");
       setWasDisconnectedManually(true);
       window.dispatchEvent(new Event("manualDisconnect"));
-      notification.success("Disconnect successfully!");
+      toast.success("Disconnect successfully!");
     } catch (err) {
       console.log(err);
-      notification.success("Disconnect failure!");
+      toast.success("Disconnect failure!");
     }
   };
   return (

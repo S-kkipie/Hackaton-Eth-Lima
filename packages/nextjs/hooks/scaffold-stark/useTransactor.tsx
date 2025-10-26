@@ -14,11 +14,12 @@ import {
   UseTransactionReceiptResult,
 } from "@starknet-react/core";
 import { useAccount } from "../useAccount";
-import { getBlockExplorerTxLink, notification } from "../../utils/scaffold-stark";
+import { getBlockExplorerTxLink } from "../../utils/scaffold-stark";
+import { toast } from "sonner";
 
 type TransactionFunc = (
   tx: Call[],
-  withSendTransaction?: boolean,
+  withSendTransaction?: boolean
 ) => Promise<string | undefined>;
 
 interface UseTransactorReturn {
@@ -65,7 +66,7 @@ const TxnNotification = ({
  * @see {@link https://scaffoldstark.com/docs/hooks/useTransactor}
  */
 export const useTransactor = (
-  _walletClient?: AccountInterface,
+  _walletClient?: AccountInterface
 ): UseTransactorReturn => {
   let walletClient = _walletClient;
   const { account, address, status } = useAccount();
@@ -80,7 +81,7 @@ export const useTransactor = (
     string | undefined
   >(undefined);
   const [transactionHash, setTransactionHash] = useState<string | undefined>(
-    undefined,
+    undefined
   );
   const transactionReceiptInstance = useTransactionReceipt({
     hash: transactionHash,
@@ -96,17 +97,17 @@ export const useTransactor = (
 
   useEffect(() => {
     if (notificationId && txStatus && txStatus !== "pending") {
-      notification.remove(notificationId);
+      toast.dismiss(notificationId);
     }
     if (txStatus === "success") {
-      notification.success(
+      toast.success(
         <TxnNotification
           message="Transaction completed successfully!"
           blockExplorerLink={blockExplorerTxURL}
         />,
         {
           icon: "🎉",
-        },
+        }
       );
       resetStates();
     }
@@ -114,11 +115,11 @@ export const useTransactor = (
 
   const writeTransaction = async (
     tx: Call[],
-    withSendTransaction: boolean = true,
+    withSendTransaction: boolean = true
   ): Promise<string | undefined> => {
     resetStates();
     if (!walletClient) {
-      notification.error("Cannot access account");
+      toast.error("Cannot access account");
       console.error("⚡️ ~ file: useTransactor.tsx ~ error");
       return;
     }
@@ -129,8 +130,8 @@ export const useTransactor = (
       | undefined = undefined;
     try {
       const networkId = await walletClient.getChainId();
-      notificationId = notification.loading(
-        <TxnNotification message="Awaiting for user confirmation" />,
+      notificationId = toast.loading(
+        <TxnNotification message="Awaiting for user confirmation" />
       );
       if (tx != null && withSendTransaction) {
         // Tx is already prepared by the caller
@@ -144,7 +145,7 @@ export const useTransactor = (
         try {
           // First try to estimate fees
           const estimatedFee = await walletClient.estimateInvokeFee(
-            tx as Call[],
+            tx as Call[]
           );
 
           // Use estimated fee with a safety margin (multiply by 1.5)
@@ -162,7 +163,7 @@ export const useTransactor = (
         } catch (feeEstimationError) {
           console.warn(
             "Fee estimation failed, using fallback values:",
-            feeEstimationError,
+            feeEstimationError
           );
 
           // Fallback to safe default values if estimation fails
@@ -196,23 +197,23 @@ export const useTransactor = (
 
       setTransactionHash(transactionHash);
 
-      notification.remove(notificationId);
+      toast.dismiss(notificationId);
 
       const blockExplorerTxURL = networkId
         ? getBlockExplorerTxLink(targetNetwork.network, transactionHash)
         : "";
       setBlockExplorerTxURL(blockExplorerTxURL);
 
-      notificationId = notification.loading(
+      notificationId = toast.loading(
         <TxnNotification
           message="Waiting for transaction to complete."
           blockExplorerLink={blockExplorerTxURL}
-        />,
+        />
       );
       setNotificationId(notificationId);
     } catch (error: any) {
       if (notificationId) {
-        notification.remove(notificationId);
+        toast.dismiss(notificationId);
       }
 
       const errorPattern = /Contract (.*?)"}/;
@@ -221,7 +222,7 @@ export const useTransactor = (
 
       console.error("⚡️ ~ file: useTransactor.tsx ~ error", message);
 
-      notification.error(message);
+      toast.error(message);
       throw error;
     }
 

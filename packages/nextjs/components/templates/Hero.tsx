@@ -28,7 +28,7 @@ export const Hero = () => {
           "Plataforma para mejorar la trazabilidad de productos enfocado en optimizar una economia circular en las MIPYMES peruanas usando tecnologías blockchain y de IA."
         }
         buttons={
-          <Link className={buttonVariants({ size: "lg" })} href="">
+          <Link className={buttonVariants({ size: "lg" })} href="/app">
             Prueba la demo!!
           </Link>
         }

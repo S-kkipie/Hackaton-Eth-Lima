@@ -7,7 +7,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 
 import { useTheme } from "next-themes";
-import { notification } from "../../utils/scaffold-stark/notification";
+import { toast } from "../../utils/scaffold-stark/notification";
 import { BanknotesIcon } from "@heroicons/react/20/solid";
 
 /**
@@ -36,7 +36,7 @@ export const FaucetSepolia = () => {
         const providerInfo = await publicClient.getBlock();
       } catch (error) {
         console.error("⚡️ ~ file: Faucet.tsx:checkChain ~ error", error);
-        notification.error(
+        toast.error(
           <>
             <p className="font-bold mt-0 mb-1">
               Cannot connect to local provider

@@ -4274,7 +4274,7 @@ __metadata:
     minimatch: ^10.0.0
     next: 16.0.0
     next-pwa: latest
-    next-themes: ^0.2.1
+    next-themes: ^0.4.6
     nextjs-toploader: ^3.9.17
     nprogress: ^0.2.0
     postcss: ^8.5.6
@@ -4284,9 +4284,9 @@ __metadata:
     react: 19.0.0
     react-copy-to-clipboard: ^5.1.0
     react-dom: 19.0.0
-    react-hot-toast: ^2.4.1
     shadcn: latest
     shx: ^0.4.0
+    sonner: ^2.0.7
     starknet: 8.5.3
     tailwind-merge: ^3.3.1
     tailwindcss: ^4.1.16
@@ -7427,7 +7427,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2, csstype@npm:^3.1.3":
+"csstype@npm:^3.0.2":
   version: 3.1.3
   resolution: "csstype@npm:3.1.3"
   checksum: 8db785cc92d259102725b3c694ec0c823f5619a84741b5c7991b8ad135dfaa66093038a1cc63e03361a6cd28d122be48f2106ae72334e067dd619a51f49eddf7
@@ -9675,15 +9675,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"goober@npm:^2.1.16":
-  version: 2.1.18
-  resolution: "goober@npm:2.1.18"
-  peerDependencies:
-    csstype: ^3.0.10
-  checksum: 9c3129c3cdc1fabb4e16eeb133747b5c0f35c8e174a5c6768292cb66d6adf27fd3b7ee211d0024af21c674a245403465e4d1ec0fa45bd46655f32170b6e51952
-  languageName: node
-  linkType: hard
-
 "gopd@npm:^1.0.1, gopd@npm:^1.2.0":
   version: 1.2.0
   resolution: "gopd@npm:1.2.0"
@@ -11712,17 +11703,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-themes@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "next-themes@npm:0.2.1"
-  peerDependencies:
-    next: "*"
-    react: "*"
-    react-dom: "*"
-  checksum: ebc248b956138e73436c4ed0a0f0a877a0a48a33156db577029b8b8469e48b5c777d61abf2baeb75953378febea74e067a4869ff90b4a3e94fce123289b862ba
-  languageName: node
-  linkType: hard
-
 "next-themes@npm:^0.4.6":
   version: 0.4.6
   resolution: "next-themes@npm:0.4.6"
@@ -12926,19 +12906,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hot-toast@npm:^2.4.1":
-  version: 2.6.0
-  resolution: "react-hot-toast@npm:2.6.0"
-  dependencies:
-    csstype: ^3.1.3
-    goober: ^2.1.16
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 244a587bc182f62fc1d9e119120da522395494ad1bdd3cf1365bf6be05dc23c9cd3b6749ae58d77a2e329f530649f05b87fe9cb43fa87eebf32ce90e393b9794
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -14065,6 +14032,16 @@ __metadata:
     ip-address: ^10.0.1
     smart-buffer: ^4.2.0
   checksum: 4bbe2c88cf0eeaf49f94b7f11564a99b2571bde6fd1e714ff95b38f89e1f97858c19e0ab0e6d39eb7f6a984fa67366825895383ed563fe59962a1d57a1d55318
+  languageName: node
+  linkType: hard
+
+"sonner@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "sonner@npm:2.0.7"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 17b521c2603662478cf86d21436dcfee7316785b4654456c5f37c1a15af35001953354653c5ff1239d91f04969835728daddbc61fa9a81a76ee075eb18073bae
   languageName: node
   linkType: hard
 
