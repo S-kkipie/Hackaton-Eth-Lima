@@ -13,6 +13,12 @@ pub trait IIdentityRegistry<TContractState> {
     fn admin_set_metadata(ref self: TContractState, account: ContractAddress, metadata: felt252);
     fn get_metadata(self: @TContractState, account: ContractAddress) -> felt252;
 
+        // User index helpers
+    fn get_user_count(self: @TContractState) -> (u64,);
+    fn get_user_by_index(self: @TContractState, index: u64) -> (ContractAddress, felt252, felt252);
+    // get index/id for a given user address (returns 0..count-1 or 0 if not found)
+    fn get_user_index(self: @TContractState, account: ContractAddress) -> (u64,);
+
     // Revocar rol de una cuenta (solo owner)
     fn revoke_role(ref self: TContractState, account: ContractAddress);
 
@@ -99,6 +105,9 @@ pub mod IdentityRegistry {
         // Guardamos roles como felt252 para evitar problemas de almacenamiento de enums
         account_role: Map<ContractAddress, felt252>,
         account_metadata: Map<ContractAddress, felt252>,
+    // index of registered users for on-chain enumeration
+    users_by_index: Map<felt252, ContractAddress>,
+    users_count: u64,
         // optional pointer to ProductRegistry to allow user-centric queries
         product_registry: ContractAddress,
         #[substorage(v0)]
@@ -120,11 +129,17 @@ pub mod IdentityRegistry {
 
                 let existing = self.account_role.read(caller);
                 if existing != ROLE_UNASSIGNED {
-                    panic!("Usuario ya registrado");
+                            panic!("Usuario ya registrado");
                 }
 
-                self.account_role.write(caller, role);
-                self.account_metadata.write(caller, metadata);
+                        // store role/metadata
+                        self.account_role.write(caller, role);
+                        self.account_metadata.write(caller, metadata);
+                        // append to users index
+                        let idx = self.users_count.read();
+                        let idx_key: felt252 = idx.try_into().unwrap();
+                        self.users_by_index.write(idx_key, caller);
+                        self.users_count.write(idx + 1_u64);
 
                 self.emit(UserRegistered {
                     account: caller,
@@ -201,6 +216,42 @@ pub mod IdentityRegistry {
         // OBTENER owner
         fn get_owner(self: @ContractState) -> ContractAddress {
             self.ownable.owner()
+        }
+
+        // OBTENER cantidad de usuarios
+        fn get_user_count(self: @ContractState) -> (u64,) {
+            let count = self.users_count.read();
+            return (count,);
+        }
+
+        // Para obtener los datos del usuario por índice
+        fn get_user_by_index(self: @ContractState, index: u64) -> (ContractAddress, felt252, felt252) {
+            let zero: ContractAddress = 0.try_into().unwrap();
+            let count = self.users_count.read();
+            // if index out of range return zeros
+            if index >= count {
+                return (zero, 0, 0);
+            }
+            let idx_key: felt252 = index.try_into().unwrap();
+            let account = self.users_by_index.read(idx_key);
+            let role = self.account_role.read(account);
+            let metadata = self.account_metadata.read(account);
+            return (account, role, metadata);
+        }
+
+        // Obtiener el índice del usuario por dirección
+        fn get_user_index(self: @ContractState, account: ContractAddress) -> (u64,) {
+            let count = self.users_count.read();
+            let mut i: u64 = 0_u64;
+            while i < count {
+                let idx_key: felt252 = i.try_into().unwrap();
+                let addr = self.users_by_index.read(idx_key);
+                if addr == account {
+                    return (i,);
+                }
+                i = i + 1_u64;
+            }
+            return (0_u64,);
         }
 
         // Implementaciones
