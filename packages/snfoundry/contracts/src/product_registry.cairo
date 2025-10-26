@@ -427,5 +427,60 @@ pub mod ProductRegistry {
             let len = self.product_history_len.read(product_id);
             return (len,);
         }
+
+        //Implementacion
+        fn get_products_by_user(self: @ContractState, user: ContractAddress) -> (felt252*) {
+            let count = self.product_count.read();
+            let mut results: felt252* = array_new();
+
+            let mut i = 0;
+            while i < count {
+                let product_id = self.products_by_index.read(i);
+                let owner = self.products_owner.read(product_id);
+                if owner == user {
+                    array_append(&mut results, product_id);
+                }
+                i += 1;
+            }
+
+            return results;
+        }
+
+        fn get_products_with_owners(self: @ContractState) -> ((felt252, ContractAddress)*) {
+            let count = self.product_count.read();
+            let mut all_products: (felt252, ContractAddress)* = array_new();
+
+            let mut i = 0;
+            while i < count {
+                let product_id = self.products_by_index.read(i);
+                let owner = self.products_owner.read(product_id);
+                array_append(&mut all_products, (product_id, owner));
+                i += 1;
+            }
+
+            return all_products;
+        }
+
+        fn get_product_lifecycle(self: @ContractState, product_id: felt252) -> ((felt252, u64)*) {
+            let len = self.product_history_len.read(product_id);
+            let mut lifecycle: (felt252, u64)* = array_new();
+            let mut i = 0;
+
+            while i < len {
+                let status = self.product_history_status.read(product_id * HISTORY_KEY_BASE + i);
+                let ts = self.product_history_ts.read(product_id * HISTORY_KEY_BASE + i);
+                array_append(&mut lifecycle, (status, ts));
+                i += 1;
+            }
+
+            return lifecycle;
+        }
+        
+        // Quien creo el producto
+        fn get_creator(self: @ContractState, product_id: felt252) -> (ContractAddress,) {
+            let key = product_id * HISTORY_KEY_BASE + 0;
+            let creator = self.product_history_owner.read(key);
+            return (creator,);
+        }
     }
 }

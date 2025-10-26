@@ -22,6 +22,12 @@ pub trait IIdentityRegistry<TContractState> {
 
     // Obtener owner del contrato
     fn get_owner(self: @TContractState) -> ContractAddress;
+    // Product / user helper methods (wrappers to ProductRegistry)
+    fn set_product_registry(ref self: TContractState, product_registry: ContractAddress);
+    fn get_products_of_user(self: @TContractState, user: ContractAddress) -> (felt252,);
+    fn get_product_of_user_by_index(self: @TContractState, user: ContractAddress, index: felt252) -> (felt252,);
+    fn get_product_owners(self: @TContractState, product_id: felt252) -> (felt252,);
+    fn get_owner_history_entry(self: @TContractState, product_id: felt252, index: felt252) -> (ContractAddress,);
 }
 
 #[starknet::contract]
@@ -34,6 +40,7 @@ pub mod IdentityRegistry {
         StorageMapWriteAccess,
     };
     use starknet::{ContractAddress, get_caller_address};
+        use crate::product_registry::IProductRegistryDispatcher;
 
     // COMPONENTE ownable (admin global)
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
@@ -89,6 +96,8 @@ pub mod IdentityRegistry {
         // Guardamos roles como felt252 para evitar problemas de almacenamiento de enums
         account_role: Map<ContractAddress, felt252>,
         account_metadata: Map<ContractAddress, felt252>,
+        // optional pointer to ProductRegistry to allow user-centric queries
+        product_registry: ContractAddress,
         #[substorage(v0)]
         ownable: OwnableComponent::Storage,
     }
@@ -189,6 +198,67 @@ pub mod IdentityRegistry {
         // OBTENER owner
         fn get_owner(self: @ContractState) -> ContractAddress {
             self.ownable.owner()
+        }
+
+        // Implementaciones
+        // set the ProductRegistry address (only owner)
+        fn set_product_registry(ref self: ContractState, product_registry_addr: ContractAddress) {
+            self.ownable.assert_only_owner();
+            let zero_address: ContractAddress = 0.try_into().unwrap();
+            if product_registry_addr == zero_address {
+                panic!("Product registry address cannot be zero");
+            }
+            self.product_registry.write(product_registry_addr);
+        }
+
+        // Wrapper: count of products related to a user (current owner or appeared in owner-history)
+        fn get_products_of_user(self: @ContractState, user: ContractAddress) -> (felt252,) {
+            let pr = self.product_registry.read();
+            let zero_address: ContractAddress = 0.try_into().unwrap();
+            if pr == zero_address {
+                // no product registry configured
+                return (0,);
+            }
+            let dispatcher = IProductRegistryDispatcher { contract_address: pr };
+            let (count,) = dispatcher.get_products_of_user(user);
+            return (count,);
+        }
+
+        // Wrapper: get product id at index for a user (scans inside ProductRegistry)
+        fn get_product_of_user_by_index(self: @ContractState, user: ContractAddress, index: felt252) -> (felt252,) {
+            let pr = self.product_registry.read();
+            let zero_address: ContractAddress = 0.try_into().unwrap();
+            if pr == zero_address {
+                return (0,);
+            }
+            let dispatcher = IProductRegistryDispatcher { contract_address: pr };
+            let (pid,) = dispatcher.get_product_of_user_by_index(user, index);
+            return (pid,);
+        }
+
+        // Wrapper: number of owners recorded for a product
+        fn get_product_owners(self: @ContractState, product_id: felt252) -> (felt252,) {
+            let pr = self.product_registry.read();
+            let zero_address: ContractAddress = 0.try_into().unwrap();
+            if pr == zero_address {
+                return (0,);
+            }
+            let dispatcher = IProductRegistryDispatcher { contract_address: pr };
+            let (len,) = dispatcher.get_product_owners(product_id);
+            return (len,);
+        }
+
+        // Wrapper: owner at history index for a product
+        fn get_owner_history_entry(self: @ContractState, product_id: felt252, index: felt252) -> (ContractAddress,) {
+            let pr = self.product_registry.read();
+            let zero_address: ContractAddress = 0.try_into().unwrap();
+            if pr == zero_address {
+                let zero: ContractAddress = 0.try_into().unwrap();
+                return (zero,);
+            }
+            let dispatcher = IProductRegistryDispatcher { contract_address: pr };
+            let (owner,) = dispatcher.get_owner_history_entry(product_id, index);
+            return (owner,);
         }
     }
 }
