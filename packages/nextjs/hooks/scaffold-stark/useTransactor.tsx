@@ -222,7 +222,7 @@ export const useTransactor = (
 
       console.error("⚡️ ~ file: useTransactor.tsx ~ error", message);
 
-      toast.error(message);
+      // toast.error(message);
       throw error;
     }
 

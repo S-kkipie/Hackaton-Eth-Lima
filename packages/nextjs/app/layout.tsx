@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { ScaffoldStarkAppWithProviders } from "../components/ScaffoldStarkAppWithProviders";
 import { ThemeProvider } from "../components/ThemeProvider";
+import NextTopLoader from "nextjs-toploader";
+
 import "./globals.css";
 export const metadata: Metadata = {
   title: "EcoTrace",
@@ -12,6 +14,9 @@ export const metadata: Metadata = {
 const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
+      <head>
+        <NextTopLoader />
+      </head>
       <body suppressHydrationWarning>
         <ThemeProvider
           attribute="class"

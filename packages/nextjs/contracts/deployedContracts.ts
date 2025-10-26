@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     IdentityRegistry: {
       address:
-        "0x496dbc11894432ca03bfdf52d5758fb05dbe181711fda08d79aa3f1665e05d",
+        "0x446fdb7439ce1ec515849346c50033775949ad717181c75e8fc73c6e0b0cef7",
       abi: [
         {
           type: "impl",
@@ -349,7 +349,7 @@ const deployedContracts = {
     },
     RewardManager: {
       address:
-        "0x41541c413844fe0c9b24a6f18d0227248ec99b3d4aa9e440232a2b86330beee",
+        "0x1d20e8f8089b88b5a8411f5fdfac92b75b3b9f94d72fc4e123777c95db05f6b",
       abi: [
         {
           type: "impl",
@@ -600,7 +600,7 @@ const deployedContracts = {
     },
     ProductRegistry: {
       address:
-        "0x4d9800d9736a5294151d994dfbf279eafa594586a4ab4faea1cf44088d5d712",
+        "0x11b3681b9192892c088221d297539b4698265c40922d1edfbfc8a53e5815469",
       abi: [
         {
           type: "impl",
@@ -974,7 +974,7 @@ const deployedContracts = {
     },
     ReturnValidationManager: {
       address:
-        "0x70879d2e5d62dc64f31a575dadc64368d68aac2eac41a91a76653f36127b2da",
+        "0x147626c39884b822e8f3298e37fc5a8e9c7ef4f61398ae07b0021ac433157f7",
       abi: [
         {
           type: "impl",

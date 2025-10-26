@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { CustomConnectButton } from "./scaffold-stark/CustomConnectButton";
 import { SwitchTheme } from "./SwitchTheme";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header({ className }: { className?: string }) {
   const { targetNetwork } = useTargetNetwork();
@@ -54,7 +55,12 @@ export default function Header({ className }: { className?: string }) {
   return (
     <Section className={cn("px-3 py-3 shadow", className)}>
       <CenteredMenu
-        logo={<Title>EcoTrace</Title>}
+        logo={
+          <div className="flex gap-2 items-center">
+            <Image src="/icon2.ico" alt="EcoTrace" width={40} height={40} />
+            <Title>EcoTrace</Title>
+          </div>
+        }
         rightMenu={
           <>
             {status === "connected" && !isDeployed ? (
