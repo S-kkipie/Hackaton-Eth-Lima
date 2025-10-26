@@ -9,56 +9,16 @@ import {
 } from "./deploy-contract";
 import { green } from "./helpers/colorize-log";
 
-/**
- * Deploy a contract using the specified parameters.
- *
- * @example (deploy contract with constructorArgs)
- * const deployScript = async (): Promise<void> => {
- *   await deployContract(
- *     {
- *       contract: "YourContract",
- *       contractName: "YourContractExportName",
- *       constructorArgs: {
- *         owner: deployer.address,
- *       },
- *       options: {
- *         maxFee: BigInt(1000000000000)
- *       }
- *     }
- *   );
- * };
- *
- * @example (deploy contract without constructorArgs)
- * const deployScript = async (): Promise<void> => {
- *   await deployContract(
- *     {
- *       contract: "YourContract",
- *       contractName: "YourContractExportName",
- *       options: {
- *         maxFee: BigInt(1000000000000)
- *       }
- *     }
- *   );
- * };
- *
- *
- * @returns {Promise<void>}
- */
+// deploy contracts
 const deployScript = async (): Promise<void> => {
-  await deployContract({
-    contract: "YourContract",
+  // 1. Deploy IdentityRegistry first
+  const identityRegistry = await deployContract({
+    contract: "IdentityRegistry",
+    contractName: "IdentityRegistry",
     constructorArgs: {
       owner: deployer.address,
     },
   });
-  // Deploy your other contracts here
-  await deployContract({
-    contract: "Counter",
-    constructorArgs: {
-      initial_value: 0,
-    },
-  });
-  
 };
 
 const main = async (): Promise<void> => {
