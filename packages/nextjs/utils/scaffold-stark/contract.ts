@@ -1,7 +1,7 @@
-import scaffoldConfig from "~~/scaffold.config";
-import deployedContractsData from "~~/contracts/deployedContracts";
-import predeployedContracts from "~~/contracts/predeployedContracts";
-import configExternalContracts from "~~/contracts/configExternalContracts";
+import scaffoldConfig from "../../scaffold.config";
+import deployedContractsData from "../../contracts/deployedContracts";
+import predeployedContracts from "../../contracts/predeployedContracts";
+import configExternalContracts from "../../contracts/configExternalContracts";
 import type {
   Abi,
   ExtractAbiEventNames,
@@ -25,7 +25,7 @@ import {
 } from "starknet";
 import { byteArray } from "starknet";
 import type { MergeDeepRecord } from "type-fest/source/merge-deep";
-import { feltToHex, isJsonString } from "~~/utils/scaffold-stark/common";
+import { feltToHex, isJsonString } from "../../utils/scaffold-stark/common";
 import {
   isCairoArray,
   isCairoBigInt,
@@ -41,7 +41,7 @@ import {
   isCairoType,
   isCairoU256,
   parseGenericType,
-} from "~~/utils/scaffold-stark/types";
+} from "../../utils/scaffold-stark/types";
 
 type AddExternalFlag<T> = {
   [network in keyof T]: {

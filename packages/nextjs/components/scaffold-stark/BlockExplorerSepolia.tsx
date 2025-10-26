@@ -6,10 +6,7 @@ import { useNetwork } from "@starknet-react/core";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-const GenericModal = dynamic(
-  () => import("./CustomConnectButton/GenericModal"),
-  { ssr: false },
-);
+
 import { useTheme } from "next-themes";
 
 export const BlockExplorerSepolia = () => {
@@ -50,7 +47,7 @@ export const BlockExplorerSepolia = () => {
         id="sepolia-blockexplorer-modal"
         className="modal-toggle"
       />
-      <GenericModal modalId="sepolia-blockexplorer-modal">
+      {/* <GenericModal modalId="sepolia-blockexplorer-modal"> */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold">Sepolia Block Explorers</h3>
@@ -88,7 +85,7 @@ export const BlockExplorerSepolia = () => {
               ))}
           </div>
         </div>
-      </GenericModal>
+      {/* </GenericModal> */}
     </div>
   );
 };

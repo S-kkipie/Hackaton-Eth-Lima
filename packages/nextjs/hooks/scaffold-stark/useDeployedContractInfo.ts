@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useIsMounted } from "usehooks-ts";
-import {
-  ContractCodeStatus,
-  ContractName,
-  Contract,
-  contracts,
-} from "~~/utils/scaffold-stark/contract";
+
 import { BlockIdentifier } from "starknet";
 import { useProvider } from "@starknet-react/core";
 import { ContractClassHashCache } from "./ContractClassHashCache";
+import { Contract, ContractCodeStatus, ContractName, contracts } from "../../utils/scaffold-stark/contract";
 
 /**
  * Checks if a contract is deployed and provides contract information.
@@ -29,7 +25,7 @@ export const useDeployedContractInfo = <TContractName extends ContractName>(
   const isMounted = useIsMounted();
   const { targetNetwork } = useTargetNetwork();
   const deployedContract = contracts?.[targetNetwork.network]?.[
-    contractName as ContractName
+    String(contractName)
   ] as Contract<TContractName>;
   const [status, setStatus] = useState<ContractCodeStatus>(
     ContractCodeStatus.LOADING,

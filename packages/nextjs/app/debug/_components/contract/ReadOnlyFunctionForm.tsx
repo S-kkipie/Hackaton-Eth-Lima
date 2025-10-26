@@ -106,16 +106,16 @@ export const ReadOnlyFunctionForm = ({
 
   return (
     <div className="flex flex-col gap-3 py-5 first:pt-0 last:pb-1">
-      <p className="font-medium my-0 break-words text-function">
+      <p className="font-medium my-0 wrap-break-word text-function">
         {abiFunction.name}
       </p>
       {inputElements}
       <div className="flex justify-between gap-2 flex-wrap">
         <div className="grow w-4/5">
           {data !== null && data !== undefined && (
-            <div className="bg-input text-sm px-4 py-1.5 break-words">
+            <div className="bg-input text-sm px-4 py-1.5 wrap-break-word">
               <p className="font-bold m-0 mb-1">Result:</p>
-              <pre className="whitespace-pre-wrap break-words">
+              <pre className="whitespace-pre-wrap wrap-break-word">
                 {decodeContractResponse({
                   resp: data,
                   abi,

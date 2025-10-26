@@ -1,21 +1,13 @@
 import { useTargetNetwork } from "./useTargetNetwork";
-import {
-  Contract,
-  ContractAbi,
-  ContractName,
-  contracts,
-  ExtractAbiFunctionNamesScaffold,
-  UseScaffoldArgsParam,
-  UseScaffoldWriteConfig,
-} from "~~/utils/scaffold-stark/contract";
+
 import { useSendTransaction, useNetwork, Abi } from "@starknet-react/core";
 import {
   Contract as StarknetJsContract,
   InvocationsDetails,
   Call,
 } from "starknet";
-import { notification } from "~~/utils/scaffold-stark";
 import { useTransactor } from "./useTransactor";
+import { Contract, ContractAbi, ContractName, contracts, ExtractAbiFunctionNamesScaffold, UseScaffoldArgsParam, UseScaffoldWriteConfig } from "../../utils/scaffold-stark/contract";
 
 function isRawCall(value: Call | any): value is Call {
   return "entrypoint" in value;
@@ -82,7 +74,7 @@ export const useScaffoldMultiWriteContract = <
             const contractName = call.contractName;
             const unParsedArgs = call.args as any[];
             const contract = contracts?.[targetNetwork.network]?.[
-              contractName as ContractName
+              String(contractName)
             ] as Contract<TContractName>;
             // we convert to starknetjs contract instance here since deployed data may be undefined if contract is not deployed
             const contractInstance = new StarknetJsContract({

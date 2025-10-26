@@ -2,17 +2,13 @@
 
 import { useEffect } from "react";
 import { sepolia } from "@starknet-react/chains";
-import { BanknotesIcon } from "@heroicons/react/24/outline";
 import { useNetwork, useProvider } from "@starknet-react/core";
-import { notification } from "~~/utils/scaffold-stark";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-const GenericModal = dynamic(
-  () => import("./CustomConnectButton/GenericModal"),
-  { ssr: false },
-);
 import { useTheme } from "next-themes";
+import { notification } from "../../utils/scaffold-stark/notification";
+import { BanknotesIcon } from "@heroicons/react/20/solid";
 
 /**
  * Faucet modal which displays external websites that lets you send small amounts of L2 Sepolia STRK to an account address on Starknet Sepolia..
@@ -91,7 +87,7 @@ export const FaucetSepolia = () => {
         <span>Faucet</span>
       </label>
       <input type="checkbox" id="faucet-modal" className="modal-toggle" />
-      <GenericModal modalId="faucet-modal">
+      {/* <GenericModal modalId="faucet-modal"> */}
         <>
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold mb-3">Sepolia Faucets</h3>
@@ -135,7 +131,7 @@ export const FaucetSepolia = () => {
             </div>
           </div>
         </>
-      </GenericModal>
+      {/* </GenericModal> */}
     </div>
   );
 };

@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { Address } from "@starknet-react/chains";
-import { useGlobalState } from "~~/services/store/store";
-import useScaffoldStrkBalance from "~~/hooks/scaffold-stark/useScaffoldStrkBalance";
+import useScaffoldStrkBalance from "../../hooks/scaffold-stark/useScaffoldStrkBalance";
+import { useGlobalState } from "../../services/store/store";
+import { Button } from "../ui/button";
 
 type BalanceProps = {
   address?: Address;
@@ -60,8 +61,8 @@ export const Balance = ({ address, className = "", usdMode }: BalanceProps) => {
 
   return (
     <>
-      <button
-        className={` btn btn-sm btn-ghost flex flex-col font-normal items-center hover:bg-transparent ${className}`}
+      <Button
+        variant="outline"
         onClick={toggleBalanceMode}
       >
         <div className="w-full flex items-center justify-center">
@@ -82,7 +83,7 @@ export const Balance = ({ address, className = "", usdMode }: BalanceProps) => {
             </div>
           )}
         </div>
-      </button>
+      </Button>
     </>
   );
 };

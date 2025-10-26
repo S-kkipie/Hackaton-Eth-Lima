@@ -1,8 +1,8 @@
+import { useAccount } from "@starknet-react/core";
 import { useEffect } from "react";
-import { useAccount } from "~~/hooks/useAccount";
-import scaffoldConfig from "~~/scaffold.config";
-import { useGlobalState } from "~~/services/store/store";
-import { ChainWithAttributes } from "~~/utils/scaffold-stark";
+import scaffoldConfig from "../../scaffold.config";
+import { useGlobalState } from "../../services/store/store";
+import { ChainWithAttributes } from "../../utils/scaffold-stark";
 // import { NETWORKS_EXTRA_DATA } from "~~/utils/scaffold-stark";
 
 /**

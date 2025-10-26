@@ -1,25 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useInterval } from "usehooks-ts";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
-import scaffoldConfig from "~~/scaffold.config";
-import { replacer } from "~~/utils/scaffold-stark/common";
 import {
   Abi,
   ExtractAbiEvent,
   ExtractAbiEventNames,
 } from "abi-wan-kanabi/dist/kanabi";
-import {
-  ContractAbi,
-  ContractName,
-  UseScaffoldEventHistoryConfig,
-} from "~~/utils/scaffold-stark/contract";
+
 import { devnet } from "@starknet-react/chains";
 import { useProvider } from "@starknet-react/core";
 import { hash, RpcProvider } from "starknet";
 import { events as starknetEvents, CallData, createAbiParser } from "starknet";
-import { parseEventData } from "~~/utils/scaffold-stark/eventsData";
-import { composeEventFilterKeys } from "~~/utils/scaffold-stark/eventKeyFilter";
+import { ContractAbi, ContractName, UseScaffoldEventHistoryConfig } from "../../utils/scaffold-stark/contract";
+import scaffoldConfig from "../../scaffold.config";
+import { replacer } from "../../utils/scaffold-stark/common";
+import { composeEventFilterKeys } from "../../utils/scaffold-stark/eventKeyFilter";
+import { parseEventData } from "../../utils/scaffold-stark/eventsData";
+import { useDeployedContractInfo } from "./useDeployedContractInfo";
 
 const MAX_KEYS_COUNT = 16;
 /**

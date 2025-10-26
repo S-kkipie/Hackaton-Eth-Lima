@@ -1,4 +1,3 @@
-import { useAccount } from "~~/hooks/useAccount";
 import {
   AccountInterface,
   InvokeFunctionResponse,
@@ -6,7 +5,6 @@ import {
   Call,
   ETransactionVersion,
 } from "starknet";
-import { getBlockExplorerTxLink, notification } from "~~/utils/scaffold-stark";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useState, useEffect } from "react";
 import {
@@ -15,6 +13,8 @@ import {
   useTransactionReceipt,
   UseTransactionReceiptResult,
 } from "@starknet-react/core";
+import { useAccount } from "../useAccount";
+import { getBlockExplorerTxLink, notification } from "../../utils/scaffold-stark";
 
 type TransactionFunc = (
   tx: Call[],

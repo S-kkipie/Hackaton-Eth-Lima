@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { ScaffoldStarkAppWithProviders } from "~~/components/ScaffoldStarkAppWithProviders";
-import "~~/styles/globals.css";
-import { ThemeProvider } from "~~/components/ThemeProvider";
-
+import { Metadata } from "next";
+import { ScaffoldStarkAppWithProviders } from "../components/ScaffoldStarkAppWithProviders";
+import { ThemeProvider } from "../components/ThemeProvider";
+import "./globals.css";
 export const metadata: Metadata = {
-  title: "Scaffold-Stark",
-  description: "Fast track your starknet journey",
+  title: "EcoTrace",
+  description:
+    "Plataforma para mejorar la trazabilidad de productos enfocado en optimizar una economia circular en las MIPYMES peruanas.",
   icons: "/logo.ico",
 };
 
@@ -13,7 +13,12 @@ const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <ThemeProvider enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <ScaffoldStarkAppWithProviders>
             {children}
           </ScaffoldStarkAppWithProviders>

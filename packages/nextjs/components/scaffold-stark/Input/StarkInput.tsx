@@ -1,11 +1,9 @@
+import { ArrowsRightLeftIcon } from "@heroicons/react/20/solid";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
-import {
-  CommonInputProps,
-  InputBase,
-  SIGNED_NUMBER_REGEX,
-} from "~~/components/scaffold-stark";
-import { useGlobalState } from "~~/services/store/store";
+import { useGlobalState } from "../../../services/store/store";
+import { InputBase } from "./InputBase";
+import { CommonInputProps, SIGNED_NUMBER_REGEX } from "./utils";
+
 
 const MAX_DECIMALS_USD = 2;
 

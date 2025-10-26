@@ -1,10 +1,10 @@
 import { braavos, InjectedConnector, ready } from "@starknet-react/core";
-import { getTargetNetworks } from "~~/utils/scaffold-stark";
 import { BurnerConnector } from "@scaffold-stark/stark-burner";
-import scaffoldConfig from "~~/scaffold.config";
-import { LAST_CONNECTED_TIME_LOCALSTORAGE_KEY } from "~~/utils/Constants";
 import { KeplrConnector } from "./keplr";
-import { supportedChains } from "~~/supportedChains";
+import { getTargetNetworks } from "../../utils/scaffold-stark/networks";
+import scaffoldConfig from "../../scaffold.config";
+import { supportedChains } from "../../supportedChains";
+import { LAST_CONNECTED_TIME_LOCALSTORAGE_KEY } from "../../utils/Constants";
 
 const targetNetworks = getTargetNetworks();
 

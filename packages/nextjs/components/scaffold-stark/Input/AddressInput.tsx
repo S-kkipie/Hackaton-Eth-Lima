@@ -1,10 +1,10 @@
 import { useCallback, useState, useEffect } from "react";
 import { useDebounceValue } from "usehooks-ts";
-import { CommonInputProps, InputBase } from "~~/components/scaffold-stark";
 import { Address } from "@starknet-react/chains";
-import { isAddress } from "~~/utils/scaffold-stark/common";
 import Image from "next/image";
 import { blo } from "blo";
+import { CommonInputProps } from "./utils";
+import { InputBase } from "./InputBase";
 
 /**
  * Avatar component for address input
@@ -28,7 +28,7 @@ const AddressAvatar = ({ address }: { address: string }) => {
   return (
     <Image
       alt=""
-      className="!rounded-full"
+      className="rounded-full!"
       src={avatarSrc}
       width="35"
       height="35"

@@ -1,4 +1,4 @@
-import scaffoldConfig from "~~/scaffold.config";
+import scaffoldConfig from "../../scaffold.config";
 
 export const fetchPrice = async (retries = 3): Promise<number> => {
   let attempt = 0;

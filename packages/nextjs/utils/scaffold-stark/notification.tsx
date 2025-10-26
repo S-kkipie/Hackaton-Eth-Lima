@@ -7,7 +7,7 @@ import {
   ExclamationTriangleIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/solid";
-import { useScrollLock } from "~~/hooks/useScrollLock";
+import { useScrollLock } from "../../hooks/useScrollLock";
 
 type NotificationProps = {
   content: React.ReactNode;
@@ -68,14 +68,14 @@ const ToastContent = ({
       }`}
     >
       <div className="flex flex-row items-start space-x-2">
-        <div className="leading-[0] self-center">
+        <div className="leading-0 self-center">
           {icon ? icon : ENUM_STATUSES[status]}
         </div>
 
         <div className="flex-1 min-w-0 md:max-w-max max-w-[230px]">
           <div
             ref={contentRef}
-            className={`break-words whitespace-pre-line ${icon ? "mt-1" : ""}
+            className={`wrap-break-word whitespace-pre-line ${icon ? "mt-1" : ""}
               ${
                 isExpanded
                   ? "max-h-[600px] overflow-y-auto"

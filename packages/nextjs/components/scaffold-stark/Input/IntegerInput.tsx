@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  CommonInputProps,
-  InputBase,
-  isValidInteger,
-} from "~~/components/scaffold-stark";
+
 import { parseEther } from "ethers";
+import { CommonInputProps, isValidInteger } from "./utils";
+import { InputBase } from "./InputBase";
 
 type IntegerInputProps = CommonInputProps<string | bigint> & {
   variant?: string;

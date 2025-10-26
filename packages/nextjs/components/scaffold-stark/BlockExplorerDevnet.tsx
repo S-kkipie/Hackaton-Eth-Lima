@@ -11,10 +11,6 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 
-const GenericModal = dynamic(
-  () => import("./CustomConnectButton/GenericModal"),
-  { ssr: false },
-);
 import { useTheme } from "next-themes";
 
 export const BlockExplorerDevnet = () => {

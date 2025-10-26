@@ -9,15 +9,10 @@ import {
   AddressInput,
   Balance,
   StarkInput,
-} from "~~/components/scaffold-stark";
+} from "../../components/scaffold-stark";
 import { useNetwork, useProvider } from "@starknet-react/core";
-import { mintStrk } from "~~/services/web3/faucet";
-import { notification } from "~~/utils/scaffold-stark";
-
-const GenericModal = dynamic(
-  () => import("./CustomConnectButton/GenericModal"),
-  { ssr: false },
-);
+import { mintStrk } from "../../services/web3/faucet";
+import { notification } from "../../utils/scaffold-stark";
 
 /**
  * Faucet modal which lets you send STRK to any address.
@@ -104,7 +99,7 @@ export const Faucet = () => {
         <span>Faucet</span>
       </label>
       <input type="checkbox" id="faucet-modal" className="modal-toggle" />
-      <GenericModal modalId="faucet-modal">
+      {/* <GenericModal modalId="faucet-modal"> */}
         <>
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold">Local Faucet</h3>
@@ -144,7 +139,7 @@ export const Faucet = () => {
             </button>
           </div>
         </>
-      </GenericModal>
+      {/* </GenericModal> */}
     </div>
   );
 };

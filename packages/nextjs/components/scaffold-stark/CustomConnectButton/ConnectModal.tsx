@@ -4,30 +4,39 @@ import { useLocalStorage } from "usehooks-ts";
 import { BurnerConnector, burnerAccounts } from "@scaffold-stark/stark-burner";
 import { useTheme } from "next-themes";
 import { BlockieAvatar } from "../BlockieAvatar";
-import GenericModal from "./GenericModal";
-import Wallet from "~~/components/scaffold-stark/CustomConnectButton/Wallet";
-import { LAST_CONNECTED_TIME_LOCALSTORAGE_KEY } from "~~/utils/Constants";
-import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
+import Wallet from "./Wallet";
+import { LAST_CONNECTED_TIME_LOCALSTORAGE_KEY } from "@/utils/Constants";
+import { useTargetNetwork } from "@/hooks/scaffold-stark/useTargetNetwork";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const loader = ({ src }: { src: string }) => src;
 
 const ConnectModal = () => {
-  const modalRef = useRef<HTMLInputElement>(null);
   const [isBurnerWallet, setIsBurnerWallet] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === "dark";
   const { connectors, connect } = useConnect();
   const [, setLastConnector] = useLocalStorage<{ id: string; ix?: number }>(
     "lastUsedConnector",
-    { id: "" },
+    { id: "" }
   );
   const [, setLastConnectionTime] = useLocalStorage<number>(
     LAST_CONNECTED_TIME_LOCALSTORAGE_KEY,
-    0,
+    0
   );
   const [, setWasDisconnectedManually] = useLocalStorage<boolean>(
     "wasDisconnectedManually",
-    false,
+    false
   );
   const { targetNetwork } = useTargetNetwork();
   const [showOtherOptions, setShowOtherOptions] = useState(false);
@@ -43,13 +52,9 @@ const ConnectModal = () => {
     otherConnectors = connectors.filter((c) => c.id !== "burner-wallet");
   }
 
-  const handleCloseModal = () => {
-    if (modalRef.current) modalRef.current.checked = false;
-  };
-
   function handleConnectWallet(
     e: React.MouseEvent<HTMLButtonElement>,
-    connector: Connector,
+    connector: Connector
   ) {
     if (connector.id === "burner-wallet") {
       setIsBurnerWallet(true);
@@ -59,12 +64,12 @@ const ConnectModal = () => {
     connect({ connector });
     setLastConnector({ id: connector.id });
     setLastConnectionTime(Date.now());
-    handleCloseModal();
+    // handleCloseModal();
   }
 
   function handleConnectBurner(
     e: React.MouseEvent<HTMLButtonElement>,
-    ix: number,
+    ix: number
   ) {
     const connector = connectors.find((it) => it.id == "burner-wallet");
     if (connector && connector instanceof BurnerConnector) {
@@ -73,112 +78,105 @@ const ConnectModal = () => {
       connect({ connector });
       setLastConnector({ id: connector.id, ix });
       setLastConnectionTime(Date.now());
-      handleCloseModal();
+      // handleCloseModal();
     }
   }
 
   return (
     <div>
-      <label
-        htmlFor="connect-modal"
-        className="rounded-[18px] btn-sm  font-bold px-8 bg-btn-wallet py-3 cursor-pointer"
+      <Dialog
+        open={isModalOpen}
+        onOpenChange={(open) => {
+          setIsModalOpen(open);
+          if (!open) {
+            setIsBurnerWallet(false);
+            setShowOtherOptions(false);
+          }
+        }}
       >
-        <span>Connect</span>
-      </label>
-      <input
-        ref={modalRef}
-        type="checkbox"
-        id="connect-modal"
-        className="modal-toggle"
-      />
-      <GenericModal modalId="connect-modal">
-        <>
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold">
+        <DialogTrigger asChild>
+          <Button>Conectar</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
               {isBurnerWallet
-                ? "Choose account"
+                ? "Escoja una cuenta Burner"
                 : showOtherOptions
-                  ? "Other Wallet Options"
-                  : "Connect a Wallet"}
-            </h3>
-            <label
-              onClick={() => {
-                setIsBurnerWallet(false);
-                setShowOtherOptions(false);
-              }}
-              htmlFor="connect-modal"
-              className="btn btn-ghost btn-sm btn-circle cursor-pointer"
-            >
-              ✕
-            </label>
-          </div>
-          <div className="flex flex-col flex-1 lg:grid">
-            <div className="flex flex-col gap-4 w-full px-8 py-10">
-              {!isBurnerWallet ? (
-                !showOtherOptions ? (
-                  <>
-                    {mainConnectors.map((connector, index) => (
-                      <Wallet
-                        key={connector.id || index}
-                        connector={connector}
-                        loader={loader}
-                        handleConnectWallet={handleConnectWallet}
-                      />
-                    ))}
-                    {isDevnet && otherConnectors.length > 0 && (
-                      <button
-                        className="btn btn-ghost rounded-md mt-4 font-normal text-base"
-                        onClick={() => setShowOtherOptions(true)}
-                      >
-                        Other Options
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {otherConnectors.map((connector, index) => (
-                      <Wallet
-                        key={connector.id || index}
-                        connector={connector}
-                        loader={loader}
-                        handleConnectWallet={handleConnectWallet}
-                      />
-                    ))}
-                    <button
-                      className="btn btn-ghost font-normal text-base mt-4 rounded-md"
-                      onClick={() => setShowOtherOptions(false)}
-                    >
-                      Back
-                    </button>
-                  </>
-                )
-              ) : (
-                <div className="flex flex-col pb-[20px] justify-end gap-3">
-                  <div className="h-[300px] overflow-y-auto flex w-full flex-col gap-2">
-                    {burnerAccounts.map((burnerAcc, ix) => (
-                      <div
-                        key={burnerAcc.publicKey}
-                        className="w-full flex flex-col"
-                      >
-                        <button
-                          className={`hover:bg-gradient-modal border rounded-md text-neutral py-[8px] pl-[10px] pr-16 flex items-center gap-4 ${isDarkMode ? "border-[#385183]" : ""}`}
-                          onClick={(e) => handleConnectBurner(e, ix)}
-                        >
-                          <BlockieAvatar
-                            address={burnerAcc.accountAddress}
-                            size={35}
+                  ? "Otras opciones de wallet"
+                  : "Conectar una wallet"}
+            </DialogTitle>
+              <div className="flex flex-col flex-1 lg:grid">
+                <div className="flex flex-col gap-4 w-full px-8 py-10">
+                  {!isBurnerWallet ? (
+                    !showOtherOptions ? (
+                      <>
+                        {mainConnectors.map((connector, index) => (
+                          <Wallet
+                            key={connector.id || index}
+                            connector={connector}
+                            loader={loader}
+                            handleConnectWallet={handleConnectWallet}
                           />
-                          {`${burnerAcc.accountAddress.slice(0, 6)}...${burnerAcc.accountAddress.slice(-4)}`}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                        ))}
+                        {isDevnet && otherConnectors.length > 0 && (
+                          <Button
+                            variant="outline"
+                            onClick={() => setShowOtherOptions(true)}
+                          >
+                            Otras opciones
+                          </Button>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {otherConnectors.map((connector, index) => (
+                          <Wallet
+                            key={connector.id || index}
+                            connector={connector}
+                            loader={loader}
+                            handleConnectWallet={handleConnectWallet}
+                          />
+                        ))}
+                        <Button
+                          variant="outline"
+                          onClick={() => setShowOtherOptions(false)}
+                        >
+                          Atras
+                        </Button>
+                      </>
+                    )
+                  ) : (
+                    <div className="flex flex-col pb-5 justify-end gap-3">
+                      <ScrollArea className="h-[300px] overflow-y-auto flex w-full flex-col gap-4">
+                        {burnerAccounts.map((burnerAcc, ix) => (
+                          <Button
+                            key={burnerAcc.publicKey}
+                            variant="outline"
+                            className="py-6 my-1 w-full"
+                            onClick={(e) => handleConnectBurner(e, ix)}
+                          >
+                            <BlockieAvatar
+                              address={burnerAcc.accountAddress}
+                              size={35}
+                            />
+                            {`${burnerAcc.accountAddress.slice(0, 6)}...${burnerAcc.accountAddress.slice(-4)}`}
+                          </Button>
+                        ))}
+                      </ScrollArea>
+                      <Button
+                        variant="outline"
+                        onClick={() => setIsBurnerWallet(false)}
+                      >
+                        Atras
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-        </>
-      </GenericModal>
+              </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useGlobalState } from "~~/services/store/store";
-import { priceService } from "~~/services/web3/PriceService";
+import { useGlobalState } from "../../services/store/store";
+import { priceService } from "../../services/web3/PriceService";
 
 /**
  * Manages native currency price polling and updates global state.

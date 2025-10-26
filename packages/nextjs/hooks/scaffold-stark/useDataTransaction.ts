@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { RpcProvider } from "starknet";
 import { useTargetNetwork } from "./useTargetNetwork";
-import { fetchPrice } from "~~/services/web3/PriceService";
+import { fetchPrice } from "../../services/web3/PriceService";
 
 interface BlockData {
   transaction: number;
@@ -130,7 +130,7 @@ export const useDataTransaction = (blockNumber: number) => {
 
       const data: BlockData = {
         transaction: currentBlock.transactions?.length || 0,
-        blockStatus: currentBlock.status,
+        blockStatus: currentBlock.status as string | undefined,
         blockNumber: blockNumber,
         blockHash: currentBlock.sequencer_address,
         blockVersion: currentBlock.starknet_version,

@@ -1,13 +1,8 @@
 import { Abi, useReadContract } from "@starknet-react/core";
 import { BlockNumber } from "starknet";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
-import {
-  AbiFunctionOutputs,
-  ContractAbi,
-  ContractName,
-  ExtractAbiFunctionNamesScaffold,
-  UseScaffoldReadConfig,
-} from "~~/utils/scaffold-stark/contract";
+import { ContractName, ExtractAbiFunctionNamesScaffold, ContractAbi, UseScaffoldReadConfig, AbiFunctionOutputs } from "../../utils/scaffold-stark/contract";
+import { useDeployedContractInfo } from "./useDeployedContractInfo";
+
 
 /**
  * Provides a function to read (call view functions) from a contract.

@@ -1,7 +1,7 @@
 import * as chains from "@starknet-react/chains";
-import scaffoldConfig from "~~/scaffold.config";
 import { useEffect, useState } from "react";
 import { StarkProfile } from "starknet";
+import scaffoldConfig from "../../scaffold.config";
 
 type network = "mainnet" | "sepolia" | "devnet";
 

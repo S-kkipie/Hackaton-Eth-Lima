@@ -1,10 +1,9 @@
-import {
-  ChevronDownIcon,
-  ArrowLeftEndOnRectangleIcon,
-} from "@heroicons/react/24/outline";
+
 import { useDisconnect } from "@starknet-react/core";
-import { notification } from "~~/utils/scaffold-stark";
 import { useLocalStorage } from "usehooks-ts";
+import { notification } from "../../../utils/scaffold-stark";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ArrowLeftEndOnRectangleIcon } from "@heroicons/react/20/solid";
 
 export const WrongNetworkDropdown = () => {
   const { disconnect } = useDisconnect();

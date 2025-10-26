@@ -140,7 +140,7 @@ export const WriteOnlyFunctionForm = ({
           zeroInputs ? "flex-row justify-between items-center" : "flex-col"
         }`}
       >
-        <p className="font-medium my-0 break-words text-function">
+        <p className="font-medium my-0 wrap-break-word text-function">
           {abiFunction.name}
           {/* <InheritanceTooltip inheritedFrom={undefined} /> */}
         </p>

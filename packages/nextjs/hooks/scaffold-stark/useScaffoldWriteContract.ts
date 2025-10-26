@@ -1,18 +1,12 @@
 import { useCallback } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
-import {
-  useDeployedContractInfo,
-  useTransactor,
-} from "~~/hooks/scaffold-stark";
-import {
-  ContractAbi,
-  ContractName,
-  ExtractAbiFunctionNamesScaffold,
-  UseScaffoldWriteConfig,
-} from "~~/utils/scaffold-stark/contract";
+
+
 import { useSendTransaction, useNetwork, Abi } from "@starknet-react/core";
-import { notification } from "~~/utils/scaffold-stark";
 import { Contract as StarknetJsContract } from "starknet";
+import { ContractAbi, ContractName, ExtractAbiFunctionNamesScaffold, UseScaffoldWriteConfig } from "../../utils/scaffold-stark/contract";
+import { useDeployedContractInfo } from "./useDeployedContractInfo";
+import { useTransactor } from "./useTransactor";
 
 /**
  * Provides a function to write (send transactions) to a contract method.

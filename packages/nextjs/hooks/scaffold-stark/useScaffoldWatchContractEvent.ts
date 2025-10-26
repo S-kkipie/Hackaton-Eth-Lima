@@ -1,8 +1,4 @@
-import {
-  ContractAbi,
-  ContractName,
-  UseScaffoldWatchContractEventConfig,
-} from "~~/utils/scaffold-stark/contract";
+
 import {
   Abi,
   ExtractAbiEvent,
@@ -21,8 +17,9 @@ import {
 } from "starknet";
 import { useInterval } from "usehooks-ts";
 import { devnet } from "@starknet-react/chains";
-import scaffoldConfig from "~~/scaffold.config";
-import { parseEventData } from "~~/utils/scaffold-stark/eventsData";
+import { ContractAbi, ContractName, UseScaffoldWatchContractEventConfig } from "../../utils/scaffold-stark/contract";
+import scaffoldConfig from "../../scaffold.config";
+import { parseEventData } from "../../utils/scaffold-stark/eventsData";
 
 const MAX_EVENT_KEYS = 16;
 

@@ -1,7 +1,7 @@
 "use client";
-import { useAccount } from "~~/hooks/useAccount";
+import { useAccount } from "@starknet-react/core";
+import { useScaffoldStarkProfile } from "../hooks/scaffold-stark/useScaffoldStarkProfile";
 import { Address } from "./scaffold-stark";
-import { useScaffoldStarkProfile } from "~~/hooks/scaffold-stark/useScaffoldStarkProfile";
 
 export const ConnectedAddress = () => {
   const connectedAddress = useAccount();

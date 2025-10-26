@@ -1,9 +1,9 @@
 import { hash } from "starknet";
-import deployedContracts from "~~/contracts/deployedContracts";
-import preDeployedContracts from "~~/contracts/predeployedContracts";
-import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
+import deployedContracts from "../../contracts/deployedContracts";
+import preDeployedContracts from "../../contracts/predeployedContracts";
+import { useTargetNetwork } from "../../hooks/scaffold-stark/useTargetNetwork";
 import { deepMergeContracts } from "./contract";
-import configExternalContracts from "~~/contracts/configExternalContracts";
+import configExternalContracts from "../../contracts/configExternalContracts";
 
 /**
  * Interface for ABI function items

@@ -122,14 +122,14 @@ export default function DownloadContracts() {
           <div className="flex-1 px-12">
             {targetNetwork && (
               <div className="my-4 flex text-md flex-col">
-                <div className="w-24 mb-2 font-medium break-words text-function">
+                <div className="w-24 mb-2 font-medium wrap-break-word text-function">
                   Network
                 </div>
                 <span>{targetNetwork.name}</span>
               </div>
             )}
             <div className="flex flex-col my-6">
-              <div className="w-24 mb-2 font-medium break-words text-function">
+              <div className="w-24 mb-2 font-medium wrap-break-word text-function">
                 Contract
               </div>
               <input
@@ -141,7 +141,7 @@ export default function DownloadContracts() {
               />
             </div>
             <div className="flex flex-col text-accent my-6">
-              <div className="w-24 mb-2 font-medium break-words text-function">
+              <div className="w-24 mb-2 font-medium wrap-break-word text-function">
                 Address
               </div>
               <div className="flex flex-1 gap-4">

@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useConnect } from "@starknet-react/core";
+import { useAccount, useConnect } from "@starknet-react/core";
 import { useReadLocalStorage } from "usehooks-ts";
 import { BurnerConnector, burnerAccounts } from "@scaffold-stark/stark-burner";
-import scaffoldConfig from "~~/scaffold.config";
-import { LAST_CONNECTED_TIME_LOCALSTORAGE_KEY } from "~~/utils/Constants";
-import { useAccount } from "~~/hooks/useAccount";
+import scaffoldConfig from "../../scaffold.config";
+import { LAST_CONNECTED_TIME_LOCALSTORAGE_KEY } from "../../utils/Constants";
 
 /**
  * Auto-connects wallet if user has connected before and meets auto-connect criteria.

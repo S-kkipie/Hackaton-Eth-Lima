@@ -4,12 +4,7 @@ import { Address as AddressType, mainnet } from "@starknet-react/chains";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useNetwork } from "@starknet-react/core";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 
-const GenericModal = dynamic(
-  () => import("./CustomConnectButton/GenericModal"),
-  { ssr: false },
-);
 import { useTheme } from "next-themes";
 
 export const BlockExplorer = () => {
@@ -50,7 +45,6 @@ export const BlockExplorer = () => {
         id="blockexplorer-modal"
         className="modal-toggle"
       />
-      <GenericModal modalId="blockexplorer-modal">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold">Mainnet Block Explorers</h3>
@@ -88,7 +82,6 @@ export const BlockExplorer = () => {
               ))}
           </div>
         </div>
-      </GenericModal>
     </div>
   );
 };

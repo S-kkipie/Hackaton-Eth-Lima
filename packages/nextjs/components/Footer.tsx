@@ -1,13 +1,13 @@
-import { Cog8ToothIcon, CurrencyDollarIcon } from "@heroicons/react/24/outline";
-import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
-import { useGlobalState } from "~~/services/store/store";
 import { devnet, sepolia, mainnet } from "@starknet-react/chains";
-import { Faucet } from "~~/components/scaffold-stark/Faucet";
-import { FaucetSepolia } from "~~/components/scaffold-stark/FaucetSepolia";
 import { BlockExplorerSepolia } from "./scaffold-stark/BlockExplorerSepolia";
 import { BlockExplorer } from "./scaffold-stark/BlockExplorer";
 import Link from "next/link";
 import { BlockExplorerDevnet } from "./scaffold-stark/BlockExplorerDevnet";
+import { Cog8ToothIcon, CurrencyDollarIcon } from "@heroicons/react/20/solid";
+import { useTargetNetwork } from "../hooks/scaffold-stark/useTargetNetwork";
+import { useGlobalState } from "../services/store/store";
+import { Faucet } from "./scaffold-stark";
+import { FaucetSepolia } from "./scaffold-stark/FaucetSepolia";
 
 /**
  * Site footer

@@ -30,6 +30,7 @@
     "verify": "yarn workspace @ss-2/snfoundry verify"
   },
   "dependencies": {
+    "next-themes": "^0.4.6",
     "postcss": "^8.4.38"
   },
   "devDependencies": {
