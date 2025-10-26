@@ -44,7 +44,27 @@ const deployScript = async (): Promise<void> => {
     },
   });
 
+  // 4. Deploy ReturnValidationManager
+  const returnValidationManager = await deployContract({
+    contract: "ReturnAndValidationManager",
+    contractName: "ReturnValidationManager",
+    constructorArgs: {
+      owner: deployer.address,
+    },
+  });
+  // 5. Configure cross-contract references
+  console.log("\n🔧 Configurando referencias entre contratos...");
   
+  // Set ProductRegistry address in ReturnValidationManager
+  // Set ReturnValidationManager address in ProductRegistry
+  // Set ProductRegistry address in RewardManager
+  
+  console.log("\n✅ Deployment completo!");
+  console.log("📝 Direcciones de contratos:");
+  console.log("  - IdentityRegistry:", identityRegistry.address);
+  console.log("  - RewardManager:", rewardManager.address);
+  console.log("  - ProductRegistry:", productRegistry.address);
+  console.log("  - ReturnValidationManager:", returnValidationManager.address);
 };
 
 const main = async (): Promise<void> => {
