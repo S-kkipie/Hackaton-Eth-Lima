@@ -13,23 +13,23 @@ export const Hero = () => {
         banner={<></>}
         title={
           <>
-            Implementa{" "}
-            <span className="bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Economia Circular{" "}
+            Impulsa la{" "}
+            <span className="bg-linear-to-r from-green-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
+              Economía Circular{" "}
             </span>
-            en tu negocio junto a<br></br>
-            <span className="bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent text-7xl">
+            en tu empresa con<br />
+            <span className="bg-linear-to-r from-green-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent text-7xl">
               {" "}
               EcoTrace{" "}
             </span>
           </>
         }
         description={
-          "Plataforma para mejorar la trazabilidad de productos enfocado en optimizar una economia circular en las MIPYMES peruanas usando tecnologías blockchain y de IA."
+          "Plataforma inteligente que permite a las MIPYMES peruanas rastrear el ciclo de vida de sus productos, optimizar recursos y demostrar su compromiso con la sostenibilidad, mediante tecnología blockchain e inteligencia artificial."
         }
         buttons={
           <Link className={buttonVariants({ size: "lg" })} href="/app">
-            Prueba la demo!!
+            Probar la demo 🌿
           </Link>
         }
       />

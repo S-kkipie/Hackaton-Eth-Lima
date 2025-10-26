@@ -6,136 +6,58 @@ export const Features = () => {
   return (
     <Background>
       <Section
-        subtitle={"Features"}
-        title={"Todo lo que necesitas para lanzar tu proyecto"}
+        subtitle={"Características principales"}
+        title={"Todo lo que necesitas para hacer tu negocio más sostenible"}
         description={
-          "Todo lo necesario para crear, desplegar y escalar tus agentes de IA rápidamente."
+          "EcoTrace te ayuda a medir, rastrear y optimizar tu impacto ambiental con herramientas pensadas para las MIPYMES."
         }
       >
         <div className="grid grid-cols-1 gap-x-3 gap-y-8 md:grid-cols-3">
           <FeatureCard
-            icon={
-              <svg
-                className="stroke-primary-foreground stroke-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
-              </svg>
-            }
-            title={"Automatización"}
+            title={"Trazabilidad total"}
           >
             {
-              "Automatiza tareas repetitivas y acelera tus flujos de trabajo con reglas inteligentes."
+              "Registra cada etapa del ciclo de vida de tus productos con blockchain, garantizando transparencia y confianza para tus clientes."
             }
           </FeatureCard>
 
           <FeatureCard
-            icon={
-              <svg
-                className="stroke-primary-foreground stroke-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
-              </svg>
-            }
-            title={"Colaboración en equipo"}
+            title={"Inteligencia Ambiental"}
           >
             {
-              "Comparte proyectos, comentarios y permisos con tu equipo en tiempo real."
+              "Utiliza IA para analizar el uso de recursos y recibir recomendaciones sostenibles que reduzcan costos y residuos."
             }
           </FeatureCard>
 
           <FeatureCard
-            icon={
-              <svg
-                className="stroke-primary-foreground stroke-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
-              </svg>
-            }
-            title={"Seguridad y permisos"}
+            title={"Certificación Verde"}
           >
             {
-              "Controla el acceso, revisa auditorías y protege datos sensibles con cifrado."
+              "Obtén certificados digitales que validan tus prácticas ecoamigables y aumentan el valor de tu marca."
             }
           </FeatureCard>
 
           <FeatureCard
-            icon={
-              <svg
-                className="stroke-primary-foreground stroke-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
-              </svg>
-            }
-            title={"Analíticas"}
+            title={"Gestión Colaborativa"}
           >
             {
-              "Visualiza métricas clave, rendimiento y uso para tomar decisiones informadas."
+              "Invita a tus proveedores y aliados a compartir datos de trazabilidad para crear una cadena de valor más limpia y responsable."
             }
           </FeatureCard>
 
           <FeatureCard
-            icon={
-              <svg
-                className="stroke-primary-foreground stroke-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
-              </svg>
-            }
-            title={"Integraciones"}
+            title={"Integración Simple"}
           >
             {
-              "Conecta tu stack favorito con integraciones listas y APIs públicas."
+              "Conecta tu sistema de inventarios o ventas mediante APIs fáciles de usar y empieza a registrar tu impacto ambiental en minutos."
             }
           </FeatureCard>
 
           <FeatureCard
-            icon={
-              <svg
-                className="stroke-primary-foreground stroke-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M0 0h24v24H0z" stroke="none" />
-                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
-              </svg>
-            }
-            title={"Soporte 24/7"}
+            title={"Soporte y Comunidad"}
           >
             {
-              "Nuestro equipo está disponible para ayudarte en cualquier momento."
+              "Únete a una red de empresas comprometidas con el futuro sostenible del Perú. Nuestro equipo te acompaña 24/7."
             }
           </FeatureCard>
         </div>

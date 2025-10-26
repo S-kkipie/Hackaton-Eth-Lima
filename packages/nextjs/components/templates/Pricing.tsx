@@ -4,14 +4,14 @@ import { PLAN_ID } from "@/utils/AppConfig";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 
-
 export const Pricing = () => {
-
   return (
     <Section
       subtitle={"Planes y precios"}
-      title={"Precios simples y transparentes"}
-      description={"Elige el plan que mejor se adapte a tu equipo. Sin sorpresas ni costos ocultos."}
+      title={"Transparencia y accesibilidad para todos"}
+      description={
+        "EcoTrace ofrece planes adaptados a cada etapa de crecimiento. Empieza gratis, escala cuando tu impacto lo requiera."
+      }
     >
       <PricingInformation
         buttonList={{
@@ -23,7 +23,7 @@ export const Pricing = () => {
               })}
               href="/sign-up"
             >
-              Regístrate
+              Empezar gratis
             </Link>
           ),
           [PLAN_ID.PREMIUM]: (
@@ -34,7 +34,7 @@ export const Pricing = () => {
               })}
               href="/sign-up"
             >
-              Regístrate
+              Probar Premium
             </Link>
           ),
           [PLAN_ID.ENTERPRISE]: (
@@ -45,7 +45,7 @@ export const Pricing = () => {
               })}
               href="/sign-up"
             >
-              Regístrate
+              Contactar Ventas
             </Link>
           ),
         }}
